@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private int speed = 5;
-    [SerializeField] private Animator animator;
+    [SerializeField] private int speed = 5;    
 
     private PlayerControls playerControls;
     private Rigidbody rb;
@@ -41,22 +40,7 @@ public class PlayerController : MonoBehaviour
         float z = moveInput.y;
 
         movement = new Vector3(x, 0, z).normalized;
-
-        // Animator parameters
-        animator.SetFloat("MoveX", x);
-        animator.SetFloat("MoveZ", z);
-
-        if (movement.magnitude > 0.1f)
-        {
-            lastDirection = movement;
-            animator.SetBool("IsMoving", true);
-        }
-        else
-        {
-            animator.SetBool("IsMoving", false);
-            animator.SetFloat("IdleX", lastDirection.x);
-            animator.SetFloat("IdleZ", lastDirection.z);
-        }
+        
     }
 
     private void FixedUpdate()
