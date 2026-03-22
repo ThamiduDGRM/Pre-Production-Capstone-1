@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AttackCooldown()
     {
-    yield return new WaitForSeconds(0.4f); // match your attack animation length
+    yield return new WaitForSeconds(0.4f); // matches animation and doesn't repeat attack animation for a 2nd time
     isAttacking = false;
     }
 
