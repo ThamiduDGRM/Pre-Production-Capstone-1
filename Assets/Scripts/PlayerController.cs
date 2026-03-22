@@ -60,10 +60,23 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
     }
 
+    private bool isAttacking = false;
+
     private void OnAttack()
     {
-        animator.SetTrigger(ATTACK_TRIGGER);
+        if (isAttacking) return;
+
+        isAttacking = true;
+        animator.SetTrigger("Attack");
+        StartCoroutine(AttackCooldown());
     }
+
+    private IEnumerator AttackCooldown()
+    {
+    yield return new WaitForSeconds(0.4f); // match your attack animation length
+    isAttacking = false;
+    }
+
 }
 
 
