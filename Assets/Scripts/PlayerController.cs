@@ -6,16 +6,21 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private int speed = 5;
     [SerializeField] private Animator animator;
-    
     [SerializeField] private SpriteRenderer playerSprite;
+
     private PlayerControls playerControls;
     private Rigidbody rb;
     private Vector3 movement;
-    private Vector3 lastDirection = Vector3.forward;
+
     private const string IS_MOVING_PARAM = "IsMoving";
+    private const string ATTACK_TRIGGER = "Attack";
+
     private void Awake()
     {
         playerControls = new PlayerControls();
+
+        // Register attack input
+        playerControls.Player.Attack.performed += ctx => OnAttack();
     }
 
     private void OnEnable()
@@ -41,27 +46,25 @@ public class PlayerController : MonoBehaviour
         float z = moveInput.y;
 
         movement = new Vector3(x, 0, z).normalized;
-        animator.SetBool(IS_MOVING_PARAM, movement!=Vector3.zero);
+        animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
 
-        if (x!=0 && x< 0)
-
-        {
+        // Flip sprite based on direction
+        if (x < 0)
             playerSprite.flipX = true;
-        }
-
-        if (x!=0 && x> 0)
-
-        {
+        else if (x > 0)
             playerSprite.flipX = false;
-        }
-
-
     }
 
     private void FixedUpdate()
     {
         rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
     }
+
+    private void OnAttack()
+    {
+        animator.SetTrigger(ATTACK_TRIGGER);
+    }
 }
+
 
 
