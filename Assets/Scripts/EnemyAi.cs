@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
 
     }
 
-    private void Update()
+    public void FixedUpdate()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -106,7 +106,7 @@ public class EnemyAI : MonoBehaviour
     
         {
             Vector3 direction = target - transform.position;
-            if (Mathf.Abs(direction.x) < 0.1f)
+            if (Mathf.Abs(direction.x) < 0.2f)
             return;
 
             if (direction.x < 0)
