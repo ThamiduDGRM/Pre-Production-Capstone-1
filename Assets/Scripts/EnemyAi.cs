@@ -56,6 +56,20 @@ public class EnemyAI : MonoBehaviour
         FaceTarget(player.position);
     }
 
+    
+    private void DealDamageToPlayer()
+    {
+        IDamageable dmg = player.GetComponent<IDamageable>();
+          if (dmg != null)
+        {
+            dmg.TakeDamage(1);
+        }
+    }
+
+    
+    
+    
+    
     private void AttackPlayer()
     {
         animator.SetBool("IsMoving", false);
@@ -64,6 +78,7 @@ public class EnemyAI : MonoBehaviour
         {
             isAttacking = true;
             animator.SetTrigger("Attack");
+            Invoke(nameof(DealDamageToPlayer), 0.3f);
             Invoke(nameof(ResetAttack), 0.8f);
         }
 
