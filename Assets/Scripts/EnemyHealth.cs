@@ -1,16 +1,27 @@
 using UnityEngine;
+using System;
 
 public class EnemyHealth : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int maxHealth = 3;
+    private int currentHealth;
+
+    public Action onDeath;
+
+    private void Start()
     {
-        
+        currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int amount)
     {
-        
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
+        {
+            onDeath?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }
+
