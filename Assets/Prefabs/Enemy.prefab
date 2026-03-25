@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7478526995644254698}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 25.172058, y: -7.33, z: 7.303358}
   m_LocalScale: {x: 5.58, y: 5.58, z: 5.58}
   m_ConstrainProportionsScale: 0
@@ -82,10 +82,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
-  m_Height: 0.63
+  m_Radius: 0.06
+  m_Height: 0.2
   m_Direction: 1
-  m_Center: {x: -0.00000047683716, y: 0.00000011920929, z: 0}
+  m_Center: {x: 0.04, y: -0.05, z: 0.01}
 --- !u!114 &6923276638699164701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   chaseSpeed: 3.5
-  detectionRange: 12
+  detectionRange: 17
   attackRange: 1.5
   animator: {fileID: 5688247451223744165}
 --- !u!114 &1039140842344224065
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 4
+  flashDuration: 0.2
 --- !u!1 &7533234004092834073
 GameObject:
   m_ObjectHideFlags: 0

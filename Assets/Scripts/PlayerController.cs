@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer playerSprite;
 
+    [Header("Attack Settings")]
+    [SerializeField] private GameObject attackHitbox; // <-- ADD THIS
+
     private PlayerControls playerControls;
     private Rigidbody rb;
     private Vector3 movement;
@@ -15,11 +17,11 @@ public class PlayerController : MonoBehaviour
     private const string IS_MOVING_PARAM = "IsMoving";
     private const string ATTACK_TRIGGER = "Attack";
 
+    private bool isAttacking = false;
+
     private void Awake()
     {
         playerControls = new PlayerControls();
-
-        // Register attack input
         playerControls.Player.Attack.performed += ctx => OnAttack();
     }
 
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        attackHitbox.SetActive(false); // ensure hitbox starts disabled
     }
 
     private void OnDisable()
@@ -60,24 +63,32 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
     }
 
-    private bool isAttacking = false;
-
     private void OnAttack()
     {
         if (isAttacking) return;
 
         isAttacking = true;
-        animator.SetTrigger("Attack");
-        StartCoroutine(AttackCooldown());
+        animator.SetTrigger(ATTACK_TRIGGER);
+
+        StartCoroutine(AttackRoutine());
     }
 
-    private IEnumerator AttackCooldown()
+    private IEnumerator AttackRoutine()
     {
-    yield return new WaitForSeconds(0.8f); // matches animation and doesn't repeat attack animation for a 2nd time
-    isAttacking = false;
-    }
+        // Enable hitbox at the correct frame
+        yield return new WaitForSeconds(0.15f); // adjust to match animation
+        attackHitbox.SetActive(true);
 
+        // Keep hitbox active for the hit window
+        yield return new WaitForSeconds(0.2f);
+        attackHitbox.SetActive(false);
+
+        // Cooldown before next attack
+        yield return new WaitForSeconds(0.45f);
+        isAttacking = false;
+    }
 }
+
 
 
 

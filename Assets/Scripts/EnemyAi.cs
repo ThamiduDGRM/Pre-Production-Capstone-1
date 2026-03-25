@@ -13,14 +13,19 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        player = p.transform;
+
         originalScale = transform.localScale;
     }
 
+
     private void FixedUpdate()
     {
+        if (player == null) return;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
+        
         if (distanceToPlayer <= attackRange)
         {
             AttackPlayer();
