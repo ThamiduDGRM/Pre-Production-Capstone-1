@@ -1,47 +1,33 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class EnemyWaveSpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
-    [System.Serializable]
-    public class Wave
-    {
-        public int enemyCount = 5;
-        public float spawnDelay = 0.5f;
-    }
-
-    public Wave[] waves;
-    public Transform[] spawnPoints;
     public GameObject enemyPrefab;
+    public Transform[] spawnPoints;
 
-    private int currentWaveIndex = 0;
+    [Header("Spawn Settings")]
+    public float spawnInterval = 2f;   // time between spawns
+    public int maxEnemies = 10;        // limit on-screen enemies
+
     private int enemiesAlive = 0;
-    private bool waveInProgress = false;
 
     private void Start()
     {
-        StartCoroutine(StartNextWave());
+        StartCoroutine(SpawnLoop());
     }
 
-    private IEnumerator StartNextWave()
+    private IEnumerator SpawnLoop()
     {
-        if (currentWaveIndex >= waves.Length)
+        while (true)
         {
-            Debug.Log("All waves complete! Player can progress.");
-            yield break;
+            if (enemiesAlive < maxEnemies)
+            {
+                SpawnEnemy();
+            }
+
+            yield return new WaitForSeconds(spawnInterval);
         }
-
-        waveInProgress = true;
-        Wave wave = waves[currentWaveIndex];
-
-        for (int i = 0; i < wave.enemyCount; i++)
-        {
-            SpawnEnemy();
-            yield return new WaitForSeconds(wave.spawnDelay);
-        }
-
-        waveInProgress = false;
     }
 
     private void SpawnEnemy()
@@ -58,12 +44,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     private void OnEnemyDeath()
     {
         enemiesAlive--;
-
-        if (enemiesAlive <= 0 && !waveInProgress)
-        {
-            currentWaveIndex++;
-            StartCoroutine(StartNextWave());
-        }
     }
 }
+
 

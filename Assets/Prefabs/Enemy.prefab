@@ -82,8 +82,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.06
-  m_Height: 0.2
+  m_Radius: 0.12
+  m_Height: 0.42
   m_Direction: 1
   m_Center: {x: 0.04, y: -0.05, z: 0.01}
 --- !u!114 &6923276638699164701
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd25190352500e4abdcf1d17e79502d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  chaseSpeed: 3.5
-  detectionRange: 17
+  chaseSpeed: 2
+  detectionRange: 22
   attackRange: 1.5
   animator: {fileID: 5688247451223744165}
 --- !u!114 &1039140842344224065
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897ad10dbc3eb564eaa96f8ab7d4655a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 4
+  maxHealth: 3
   flashDuration: 0.2
 --- !u!1 &7533234004092834073
 GameObject:
