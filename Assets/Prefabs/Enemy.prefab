@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   chaseSpeed: 3.5
-  detectionRange: 6
+  detectionRange: 12
   attackRange: 1.5
   animator: {fileID: 5688247451223744165}
 --- !u!114 &1039140842344224065
@@ -143,8 +143,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.89, y: 0.89, z: 0.89}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8584846035877436654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1430578964, guid: 78550d4e25d17e14dbaec5edd81fa66f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
