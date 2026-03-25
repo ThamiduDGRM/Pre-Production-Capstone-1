@@ -39,27 +39,35 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void Patrol()
+        private void Patrol()
     {
-        if (isAttacking) return;
+    if (isAttacking) return;
 
-        animator.SetBool("IsMoving", true);
+    animator.SetBool("IsMoving", true);
 
-        Transform targetPoint = patrolPoints[currentPatrolIndex];
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPoint.position,
-            patrolSpeed * Time.deltaTime
-        );
+    Transform targetPoint = patrolPoints[currentPatrolIndex];
 
-        // Switch to next patrol point
-        if (Vector3.Distance(transform.position, targetPoint.position) < 0.6f)
-        {
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        }
+    // Keep enemy on the ground
+    Vector3 targetPos = new Vector3(
+        targetPoint.position.x,
+        transform.position.y,
+        targetPoint.position.z
+    );
 
-        FaceTarget(targetPoint.position);
+    transform.position = Vector3.MoveTowards(
+        transform.position,
+        targetPos,
+        patrolSpeed * Time.deltaTime
+    );
+
+    if (Vector3.Distance(transform.position, targetPos) < 1f)
+    {
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
     }
+
+    FaceTarget(targetPos);
+    }
+
 
     private void ChasePlayer()
     {
