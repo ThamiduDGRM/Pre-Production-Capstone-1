@@ -9,6 +9,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public Action onDeath;
 
+    [Header("Coin Drop")]
+    public GameObject coinPrefab;
+    public int coinsToDrop = 1;
+
     private Renderer enemyRenderer;
     private Color originalColor;
     public float flashDuration = 0.1f;
@@ -29,7 +33,16 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             onDeath?.Invoke();
+            DropCoins();
             StartCoroutine(Die());
+        }
+    }
+
+    private void DropCoins()
+    {
+        for (int i = 0; i < coinsToDrop; i++)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
         }
     }
 
@@ -58,6 +71,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 }
+
 
 
 
