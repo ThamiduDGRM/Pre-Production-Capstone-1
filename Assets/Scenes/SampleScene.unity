@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 120991235}
   - component: {fileID: 120991237}
   - component: {fileID: 120991236}
+  - component: {fileID: 120991238}
   m_Layer: 5
   m_Name: PowerUpUI
   m_TagString: Untagged
@@ -291,6 +292,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120991234}
   m_CullTransparentMesh: 1
+--- !u!114 &120991238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120991234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc37a48b13d1444fbbfe1a7c544c950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerUpUI
+  cards:
+  - {fileID: 939852708}
+  - {fileID: 1175555292}
 --- !u!1 &159060174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,6 +1974,7 @@ GameObject:
   - component: {fileID: 1031860899}
   - component: {fileID: 1031860901}
   - component: {fileID: 1031860904}
+  - component: {fileID: 1031860905}
   - component: {fileID: 1031860900}
   - component: {fileID: 1031860902}
   - component: {fileID: 1031860903}
@@ -2122,8 +2139,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e195a7bb0237db4496e9f399f005811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 20
+  maxHealth: 30
   healthBar: {fileID: 519427639}
+--- !u!114 &1031860905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031860898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7039dae6314fcfe49b77e782b8ae4319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHealth: 30
+  coinMultiplier: 1
 --- !u!1 &1048389752
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,6 +3036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1914386592}
   - component: {fileID: 1914386591}
+  - component: {fileID: 1914386593}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3041,6 +3073,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1914386593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914386590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2997dfd70908d4ea56e63767a96eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerUpManager
+  allPowerUps:
+  - {fileID: 0}
+  - {fileID: 0}
+  powerUpUI: {fileID: 120991234}
+  coinThreshold: 10
 --- !u!1 &2051153589
 GameObject:
   m_ObjectHideFlags: 0
@@ -3276,7 +3325,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1272757452}
   spawnInterval: 4
-  maxEnemies: 4
+  maxEnemies: 2
 --- !u!4 &2143874573
 Transform:
   m_ObjectHideFlags: 0

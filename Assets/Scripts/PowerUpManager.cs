@@ -7,7 +7,7 @@ public class PowerUpManager : MonoBehaviour
     public PowerUp[] allPowerUps;
     public GameObject powerUpUI;
 
-    public int coinThreshold = 20;
+    public int coinThreshold = 10;
     private int nextThreshold;
 
     private void Awake()
