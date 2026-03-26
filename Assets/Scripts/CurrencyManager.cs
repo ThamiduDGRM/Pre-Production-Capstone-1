@@ -21,8 +21,11 @@ public class CurrencyManager : MonoBehaviour
 
     public void AddCoins(int amount)
     {
+        int finalAmount = Mathf.RoundToInt(amount * PlayerStats.Instance.coinMultiplier);
         coins += amount;
         UpdateUI();
+
+        PowerUpManager.Instance.OnCoinsChanged(coins);
     }
 
     private void UpdateUI()
