@@ -4,7 +4,7 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
 
-    public int maxHealth = 10;
+    public int Heal = 10;
     public float coinMultiplier = 1f;
 
     private void Awake()
@@ -23,11 +23,11 @@ public class PlayerStats : MonoBehaviour
         switch (p.type)
         {
             case PowerUp.PowerUpType.CoinMultiplier:
-                coinMultiplier += p.value;
+                coinMultiplier *= p.value;
                 break;
 
-            case PowerUp.PowerUpType.MaxHealth:
-                maxHealth += (int)p.value;
+            case PowerUp.PowerUpType.Heal:
+                PlayerHealth.Instance.Heal((int)p.value);                              
                 break;
           
         }

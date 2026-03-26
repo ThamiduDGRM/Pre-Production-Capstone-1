@@ -25,7 +25,7 @@ public class PowerUpManager : MonoBehaviour
     {
         if (coins >= nextThreshold)
         {
-            nextThreshold += coinThreshold;
+            nextThreshold = coinThreshold;
             ShowPowerUpSelection();
         }
     }
@@ -41,7 +41,10 @@ public class PowerUpManager : MonoBehaviour
     public void ApplyPowerUp(PowerUp p)
     {
         PlayerStats.Instance.ApplyPowerUp(p);
-
+        
+        CurrencyManager.Instance.coins = 0;
+        CurrencyManager.Instance.UpdateUI();
+        
         powerUpUI.SetActive(false);
         Time.timeScale = 1f; // resume game
     }

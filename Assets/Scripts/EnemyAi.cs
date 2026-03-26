@@ -65,16 +65,12 @@ public class EnemyAI : MonoBehaviour
     private void DealDamageToPlayer()
     {
         IDamageable dmg = player.GetComponent<IDamageable>();
-          if (dmg != null)
+        if (dmg != null)
         {
             dmg.TakeDamage(1);
         }
     }
-
-    
-    
-    
-    
+               
     private void AttackPlayer()
     {
         animator.SetBool("IsMoving", false);

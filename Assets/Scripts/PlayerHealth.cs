@@ -3,33 +3,42 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public int maxHealth = 10;
-    private int currentHealth;
+    public static PlayerHealth Instance;
+
+    public int maxHealth = 30;
+    public int currentHealth;
 
     public Slider healthBar;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
         currentHealth = maxHealth;
         healthBar.maxValue = maxHealth;
-        healthBar.value = maxHealth;
+        healthBar.value = currentHealth;
     }
 
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         healthBar.value = currentHealth;
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
     }
 
-    private void Die()
+    public void Heal(int amount)
     {
-        Debug.Log("Player died!");
-        // TODO: Game over, respawn, etc.
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        healthBar.value = currentHealth;
     }
 }
+
+
+
+
+
 

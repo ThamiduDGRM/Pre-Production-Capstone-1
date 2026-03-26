@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 30
   m_WholeNumbers: 0
   m_Value: 2
   m_OnValueChanged:
@@ -2027,7 +2027,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1031860901
 MonoBehaviour:
@@ -2140,6 +2140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 30
+  currentHealth: 0
   healthBar: {fileID: 519427639}
 --- !u!114 &1031860905
 MonoBehaviour:
@@ -2153,7 +2154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7039dae6314fcfe49b77e782b8ae4319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  maxHealth: 30
+  Heal: 30
   coinMultiplier: 1
 --- !u!1 &1048389752
 GameObject:
@@ -3086,10 +3087,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpManager
   allPowerUps:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: f54301b8eaa466c469c8b39142ad17bb, type: 2}
+  - {fileID: 11400000, guid: 09e12cba24d37f648af91cb987701534, type: 2}
   powerUpUI: {fileID: 120991234}
-  coinThreshold: 10
+  coinThreshold: 8
 --- !u!1 &2051153589
 GameObject:
   m_ObjectHideFlags: 0
