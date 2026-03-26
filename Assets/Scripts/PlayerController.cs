@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer playerSprite;
 
+    
+
+
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox; // <-- ADD THIS
 
@@ -53,9 +56,16 @@ public class PlayerController : MonoBehaviour
 
         // Flip sprite based on direction
         if (x < 0)
-            playerSprite.flipX = true;
+        {
+          playerSprite.flipX = true;
+          attackHitbox.transform.localPosition = new Vector3(-Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, attackHitbox.transform.localPosition.z);
+        }
         else if (x > 0)
-            playerSprite.flipX = false;
+        {
+          playerSprite.flipX = false;
+          attackHitbox.transform.localPosition = new Vector3(Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, attackHitbox.transform.localPosition.z);
+        }
+
     }
 
     private void FixedUpdate()
@@ -68,8 +78,7 @@ public class PlayerController : MonoBehaviour
         if (isAttacking) return;
 
         isAttacking = true;
-        animator.SetTrigger(ATTACK_TRIGGER);
-
+        animator.SetTrigger(ATTACK_TRIGGER);        
         StartCoroutine(AttackRoutine());
     }
 
