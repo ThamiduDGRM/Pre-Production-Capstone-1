@@ -34,7 +34,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         healthBar.value = currentHealth;
+    
+        if (currentHealth <= 0)
+        {
+          Die();
+        }
+    
     }
+
+    private void Die()
+    {
+      FindObjectOfType<GameOverUI>().ShowGameOver();
+    }
+
 }
 
 
