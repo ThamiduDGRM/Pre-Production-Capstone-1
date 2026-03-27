@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private int speed = 5;
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer playerSprite;
 
-    
-
+    [SerializeField] private float moveSpeed = 5f;
 
     [Header("Attack Settings")]
-    [SerializeField] private GameObject attackHitbox; // <-- ADD THIS
+    [SerializeField] private GameObject attackHitbox;
 
     private PlayerControls playerControls;
     private Rigidbody rb;
+
     private Vector3 movement;
+    private Vector2 moveInput;
 
     private const string IS_MOVING_PARAM = "IsMoving";
     private const string ATTACK_TRIGGER = "Attack";
@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector2 moveInput = playerControls.Player.Move.ReadValue<Vector2>();
+        // Read movement input into the CLASS VARIABLE (not a new local one)
+        moveInput = playerControls.Player.Move.ReadValue<Vector2>();
 
         float x = moveInput.x;
         float z = moveInput.y;
@@ -54,23 +55,32 @@ public class PlayerController : MonoBehaviour
         movement = new Vector3(x, 0, z).normalized;
         animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
 
-        // Flip sprite based on direction
+        // Flip sprite + hitbox
         if (x < 0)
         {
-          playerSprite.flipX = true;
-          attackHitbox.transform.localPosition = new Vector3(-Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, attackHitbox.transform.localPosition.z);
+            playerSprite.flipX = true;
+            attackHitbox.transform.localPosition = new Vector3(
+                -Mathf.Abs(attackHitbox.transform.localPosition.x),
+                attackHitbox.transform.localPosition.y,
+                attackHitbox.transform.localPosition.z
+            );
         }
         else if (x > 0)
         {
-          playerSprite.flipX = false;
-          attackHitbox.transform.localPosition = new Vector3(Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, attackHitbox.transform.localPosition.z);
+            playerSprite.flipX = false;
+            attackHitbox.transform.localPosition = new Vector3(
+                Mathf.Abs(attackHitbox.transform.localPosition.x),
+                attackHitbox.transform.localPosition.y,
+                attackHitbox.transform.localPosition.z
+            );
         }
-
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
+        // Move using Rigidbody.MovePosition (collisions work even when kinematic)
+        Vector3 targetPos = rb.position + new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(targetPos);
     }
 
     private void OnAttack()
@@ -78,14 +88,14 @@ public class PlayerController : MonoBehaviour
         if (isAttacking) return;
 
         isAttacking = true;
-        animator.SetTrigger(ATTACK_TRIGGER);        
+        animator.SetTrigger(ATTACK_TRIGGER);
         StartCoroutine(AttackRoutine());
     }
 
     private IEnumerator AttackRoutine()
     {
         // Enable hitbox at the correct frame
-        yield return new WaitForSeconds(0.15f); // adjust to match animation
+        yield return new WaitForSeconds(0.15f);
         attackHitbox.SetActive(true);
 
         // Keep hitbox active for the hit window
@@ -97,6 +107,7 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 }
+
 
 
 
