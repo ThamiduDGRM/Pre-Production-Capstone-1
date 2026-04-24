@@ -7,7 +7,7 @@ public class PowerUp : ScriptableObject
     public string description;
     public Sprite icon;
 
-    public enum PowerUpType { Heal, CoinMultiplier }
+    public enum PowerUpType { Heal, CoinMultiplier, Bomb }
     public PowerUpType type;
 
     public float value; // how much it increases

@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         playerControls = new PlayerControls();
         playerControls.Player.Attack.performed += ctx => OnAttack();
+        playerControls.Player.Drop.performed += ctx => OnDropBomb();
     }
 
     private void OnEnable()
@@ -91,7 +92,19 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger(ATTACK_TRIGGER);
         StartCoroutine(AttackRoutine());
     }
-
+    
+        private void OnDropBomb()
+    {
+        if (PlayerStats.Instance != null)
+      {
+        bool dropped = PlayerStats.Instance.DropBomb();
+        if (dropped)
+        {
+            // Optional: play drop animation or sound
+            animator.SetTrigger("Drop"); // if you have a drop animation
+        }
+     }
+}
     private IEnumerator AttackRoutine()
     {
         // Enable hitbox at the correct frame
