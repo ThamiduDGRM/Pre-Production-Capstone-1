@@ -100,8 +100,7 @@ public class PlayerController : MonoBehaviour
         bool dropped = PlayerStats.Instance.DropBomb();
         if (dropped)
         {
-            // Optional: play drop animation or sound
-            animator.SetTrigger("Drop"); // if you have a drop animation
+            
         }
      }
 }
