@@ -15,7 +15,7 @@ public class PowerUpUI : MonoBehaviour
     public void DisplayRandomCards(PowerUp[] all)
     {
     // Only show 2 cards
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             PowerUp random = all[Random.Range(0, all.Length)];
             cards[0].Setup(all[0]);

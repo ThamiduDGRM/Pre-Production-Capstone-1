@@ -105,9 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661584ee1ca9b3143875a47ba5675265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
-  fuseTime: 1.2
-  explosionRadius: 3
-  damage: 5
+  fuseTime: 1.5
+  explosionRadius: 20
+  damage: 15
   damageLayerMask:
     serializedVersion: 2
     m_Bits: 64
