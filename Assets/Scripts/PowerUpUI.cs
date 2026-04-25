@@ -13,16 +13,20 @@ public class PowerUpUI : MonoBehaviour
     }
 
     public void DisplayRandomCards(PowerUp[] all)
+  {
+    // Make sure we have at least 3 power-ups
+    if (all.Length < 3)
     {
-    // Only show 2 cards
-        for (int i = 0; i < 3; i++)
-        {
-            PowerUp random = all[Random.Range(0, all.Length)];
-            cards[0].Setup(all[0]);
-            cards[1].Setup(all[1]);
-
-        }
+        Debug.LogError("Need at least 3 power-ups in the array!");
+        return;
     }
+
+    // Assign all 3 cards directly
+    cards[0].Setup(all[0]);
+    cards[1].Setup(all[1]);
+    cards[2].Setup(all[2]);
+  }
+
 
 }
 
