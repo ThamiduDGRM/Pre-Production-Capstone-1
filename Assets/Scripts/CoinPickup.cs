@@ -10,7 +10,7 @@ public class CoinPickup : MonoBehaviour
         {
             // Add to player currency here
             Debug.Log("Picked up coin!");
-            CurrencyManager.Instance.AddCoins(5);
+            CurrencyManager.Instance.AddCoins(1);
             Destroy(gameObject);
         }
     }
