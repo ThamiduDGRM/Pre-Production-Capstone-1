@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7957f98584cf79b4e80b626138c26f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAi2
-  chaseSpeed: 3.5
+  chaseSpeed: 2
   detectionRange: 22
   attackRange: 1.5
   animator: {fileID: 8297614348203530301}
