@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
+    [SerializeField] private AudioSource punchAudio;
+
 
     private PlayerControls playerControls;
     private Rigidbody rb;
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
 
         isAttacking = true;
         animator.SetTrigger(ATTACK_TRIGGER);
+        punchAudio.Play();
         StartCoroutine(AttackRoutine());
     }
     
