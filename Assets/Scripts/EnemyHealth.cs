@@ -6,9 +6,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int maxHealth = 3;
     private int currentHealth;
-
+    [SerializeField] private AudioSource punchAudio;
     public Action onDeath;
-
+    
     [Header("Coin Drop")]
     public GameObject coinPrefab;
     public int coinsToDrop = 1;
@@ -29,6 +29,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         currentHealth -= amount;
 
         StartCoroutine(FlashRed());
+        punchAudio.Play();
 
         if (currentHealth <= 0)
         {
