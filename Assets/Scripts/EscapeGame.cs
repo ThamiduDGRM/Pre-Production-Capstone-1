@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class EscapeGame : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerControls controls;
+
+    private void Awake()
     {
-        
+        controls = new PlayerControls();
     }
 
-    // Update is called once per frame
-    public void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-         ExitGame();
-        }
+        controls.Enable();
+        controls.Player.Escape.performed += ctx => ExitGame();
     }
-    
+
+    private void OnDisable()
+    {
+        controls.Player.Escape.performed -= ctx => ExitGame();
+        controls.Disable();
+    }
+
     public void ExitGame()
     {
         #if UNITY_EDITOR
@@ -27,5 +31,6 @@ public class EscapeGame : MonoBehaviour
         Application.Quit();
         #endif
     }
-
 }
+
+
