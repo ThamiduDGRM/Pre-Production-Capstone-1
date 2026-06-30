@@ -2938,6 +2938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpCard
   icon: {fileID: 707413383}
+  powerUp: {fileID: 11400000, guid: 4e9f19e7970cd5d4ebbcacaca28981c9, type: 2}
 --- !u!1 &722483254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4008,6 +4009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpCard
   icon: {fileID: 939852706}
+  powerUp: {fileID: 11400000, guid: f54301b8eaa466c469c8b39142ad17bb, type: 2}
 --- !u!114 &939852709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5237,6 +5239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpCard
   icon: {fileID: 1175555290}
+  powerUp: {fileID: 11400000, guid: 09e12cba24d37f648af91cb987701534, type: 2}
 --- !u!114 &1175555293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7742,7 +7745,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4e9f19e7970cd5d4ebbcacaca28981c9, type: 2}
   - {fileID: 11400000, guid: f7293ee50bc6c0f4fa744ab724d814c9, type: 2}
   powerUpUI: {fileID: 120991234}
-  coinThreshold: 1
+  coinThreshold: 5
 --- !u!1001 &1929293712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8743,6 +8746,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1431578250827146995, guid: 355265043e3bb464d923292da7eda0df, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 64c6970aba0adea42843de26eb0332d5, type: 3}
     - target: {fileID: 3002192807211421318, guid: 355265043e3bb464d923292da7eda0df, type: 3}
       propertyPath: m_Name
       value: Card4

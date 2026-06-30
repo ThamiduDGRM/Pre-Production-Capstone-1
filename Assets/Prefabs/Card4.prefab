@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpCard
   icon: {fileID: 1431578250827146995}
+  powerUp: {fileID: 11400000, guid: f7293ee50bc6c0f4fa744ab724d814c9, type: 2}
 --- !u!222 &1213860212206500201
 CanvasRenderer:
   m_ObjectHideFlags: 0

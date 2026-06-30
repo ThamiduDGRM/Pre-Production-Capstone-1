@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 9c4b8e349114d5f49aed002c2d027c49, type: 3}
-  m_Color: {r: 1, g: 0.5240722, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -107,9 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca929dc4f1bb95419dc858933fa94bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fireball
-  speed: 4
+  speed: 2
   damage: 5
-  lifetime: 3
+  lifetime: 5
   direction: {x: 0, y: 0, z: 0}
 --- !u!95 &3242705190401852
 Animator:
