@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 movement;
     private Vector2 moveInput;
+    public Vector3 direction; 
 
     private const string IS_MOVING_PARAM = "IsMoving";
     private const string ATTACK_TRIGGER = "Attack";
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
         playerControls = new PlayerControls();
         playerControls.Player.Attack.performed += ctx => OnAttack();
         playerControls.Player.Drop.performed += ctx => OnDropBomb();
+        playerControls.Player.ShootFireball.performed += ctx => OnShootFireball();
+
     }
 
     private void OnEnable()
@@ -104,7 +107,43 @@ public class PlayerController : MonoBehaviour
             
         }
      }
+      
+                 
+
+
+
 }
+    
+    private void OnShootFireball()
+{
+    if (!PlayerStats.Instance.fireballActive) return;
+
+    animator.SetTrigger("FireballCast");
+    StartCoroutine(FireballRoutine());
+}
+
+    private IEnumerator FireballRoutine()
+{
+    // Wait for animation timing
+    yield return new WaitForSeconds(0.25f);
+
+    // Determine direction based on player facing
+    Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
+
+    // Spawn fireball (GameObject → Fireball component)
+    GameObject go = Instantiate(PlayerStats.Instance.fireballPrefab,
+                                PlayerStats.Instance.fireballSpawnPoint.position,
+                                Quaternion.identity);
+
+    Fireball fb = go.GetComponent<Fireball>();
+
+    // Assign movement direction
+    fb.direction = dir;
+}
+
+
+
+    
     private IEnumerator AttackRoutine()
     {
         // Enable hitbox at the correct frame

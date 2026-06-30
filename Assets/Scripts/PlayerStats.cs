@@ -1,5 +1,7 @@
 // PlayerStats.cs (updated)
 using UnityEngine;
+using System.Collections;
+
 
 public class PlayerStats : MonoBehaviour
 {
@@ -12,6 +14,11 @@ public class PlayerStats : MonoBehaviour
     public int bombCount = 0;
     public GameObject bombPrefab; // assign prefab in inspector
     public Transform bombSpawnPoint; // optional: where bombs spawn (child of player)
+    public bool fireballActive = false;
+    public float fireballDuration = 5f; // temporary ability
+    public GameObject fireballPrefab;
+    public Transform fireballSpawnPoint;
+
 
     private void Awake()
     {
@@ -40,12 +47,26 @@ public class PlayerStats : MonoBehaviour
                 // value used as number of bombs to add
                 bombCount += Mathf.Max(1, Mathf.RoundToInt(p.value));
                 break;
+            
+            case PowerUp.PowerUpType.FireballMode:
+                 StartCoroutine(ActivateFireballMode(p.value));
+                break;
+
         }
 
         Debug.Log("Applied power-up: " + p.powerUpName);
     }
 
     // Call this to drop a bomb. Returns true if a bomb was dropped.
+        private IEnumerator ActivateFireballMode(float duration)
+    {
+        fireballActive = true;
+        yield return new WaitForSeconds(duration);
+        fireballActive = false;
+    }
+
+    
+    
     public bool DropBomb()
     {
         if (bombCount <= 0)

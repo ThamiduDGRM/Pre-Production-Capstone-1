@@ -128,4 +128,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea188c3e9ac25f84fabc5c8f3fe23b1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinPickup
-  value: 1
+  value: 3

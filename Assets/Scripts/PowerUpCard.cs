@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class PowerUpCard : MonoBehaviour
 {
     public Image icon;   
-    private PowerUp powerUp;
+    public PowerUp powerUp;
 
     public void Setup(PowerUp p)
     {

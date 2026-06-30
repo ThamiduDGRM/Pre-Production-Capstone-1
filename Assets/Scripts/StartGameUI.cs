@@ -3,14 +3,14 @@ using UnityEngine;
 public class StartGameUI : MonoBehaviour
 {
     public GameObject startPanel;
-    public GameObject instrustionsPanel;
+    public GameObject instructionsPanel;
 
     private void Start()
     {
         // Pause the game at the beginning
         Time.timeScale = 0f;
         startPanel.SetActive(true);
-        instrustionsPanel.SetActive(true);
+        instructionsPanel.SetActive(true);
     }
 
     public void StartGame()
@@ -18,7 +18,7 @@ public class StartGameUI : MonoBehaviour
         // Unpause the game
         Time.timeScale = 1f;
         startPanel.SetActive(false);
-        instrustionsPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
 }
 

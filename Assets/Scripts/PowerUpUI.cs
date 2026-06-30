@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PowerUpUI : MonoBehaviour
 {
     public static PowerUpUI Instance;
 
-    public PowerUpCard[] cards;
+    public PowerUpCard[] cards;   // MUST be size 4 in Inspector
 
     private void Awake()
     {
@@ -13,20 +12,20 @@ public class PowerUpUI : MonoBehaviour
     }
 
     public void DisplayRandomCards(PowerUp[] all)
-  {
-    // Make sure we have at least 3 power-ups
-    if (all.Length < 3)
     {
-        Debug.LogError("Need at least 3 power-ups in the array!");
-        return;
+        if (all.Length < 4)
+        {
+            Debug.LogError("Need at least 4 power-ups in the array!");
+            return;
+        }
+     
+        // Assign all 4 cards
+        cards[0].Setup(all[0]);
+        cards[1].Setup(all[1]);
+        cards[2].Setup(all[2]);
+        cards[3].Setup(all[3]);
+
+        gameObject.SetActive(true);
     }
-
-    // Assign all 3 cards directly
-    cards[0].Setup(all[0]);
-    cards[1].Setup(all[1]);
-    cards[2].Setup(all[2]);
-  }
-
-
 }
 
