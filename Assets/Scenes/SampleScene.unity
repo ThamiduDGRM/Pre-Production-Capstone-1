@@ -7745,7 +7745,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4e9f19e7970cd5d4ebbcacaca28981c9, type: 2}
   - {fileID: 11400000, guid: f7293ee50bc6c0f4fa744ab724d814c9, type: 2}
   powerUpUI: {fileID: 120991234}
-  coinThreshold: 5
+  coinThreshold: 2
 --- !u!1001 &1929293712
 PrefabInstance:
   m_ObjectHideFlags: 0
