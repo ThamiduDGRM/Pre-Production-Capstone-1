@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public static PlayerHealth Instance;
@@ -12,7 +11,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public int currentHealth;
 
     public Slider healthBar;
-    private Renderer playerRenderer;
+
+    private SpriteRenderer playerRenderer;   // FIXED: use SpriteRenderer
     private Color originalColor;
     public float flashDuration = 0.1f;
 
@@ -26,8 +26,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = currentHealth;
-        playerRenderer = GetComponentInChildren<Renderer>();
-        originalColor = playerRenderer.material.color;
+
+        playerRenderer = GetComponentInChildren<SpriteRenderer>();   // FIXED
+        originalColor = playerRenderer.color;              // FIXED
     }
 
     public void TakeDamage(int amount)
@@ -35,18 +36,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         healthBar.value = currentHealth;
+
         StartCoroutine(FlashRed());
+
         if (currentHealth <= 0)
         {
             Die();
         }
     }
-     private IEnumerator FlashRed()
+
+    private IEnumerator FlashRed()
     {
-        playerRenderer.material.color = Color.red;
+        playerRenderer.color = Color.red;                 // FIXED
         yield return new WaitForSeconds(flashDuration);
-        playerRenderer.material.color = originalColor;
+        playerRenderer.color = originalColor;             // FIXED
     }
+
     public void Heal(int amount)
     {
         currentHealth += amount;
@@ -61,6 +66,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         ui?.ShowGameOver();
     }
 }
+
 
 
 
