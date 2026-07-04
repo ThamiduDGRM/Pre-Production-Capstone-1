@@ -50,6 +50,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "ce59db8e-f1ff-4e83-ae0b-c4a918f399e1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -68,6 +77,17 @@
                     "name": "up",
                     "id": "6293f6ba-64ce-40a6-90b5-743ab8eca02b",
                     "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "b5e21317-0276-474a-bbde-af815e47b33f",
+                    "path": "<XInputController>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -101,6 +121,17 @@
                     "name": "down",
                     "id": "4b2fb0c0-863e-4097-9ea9-270ef180782a",
                     "path": "<DualShockGamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "912e1c84-8b07-4936-9e9d-29ca43c4f51d",
+                    "path": "<XInputController>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -204,6 +235,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ShootFireball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80c21876-4c52-4ae2-8557-e6565b7ac0f4",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

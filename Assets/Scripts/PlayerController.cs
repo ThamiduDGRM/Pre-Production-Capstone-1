@@ -10,14 +10,27 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
-    
+
+    [Header("Jump Settings")]
+    [SerializeField] private float jumpForce = 7f;
+    [SerializeField] private float gravity = -20f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.15f;
+
+    [SerializeField] private float jumpFreezeHeight = 0.05f;   // height at which we freeze again
+    private float jumpStartY;
+
+    private bool isGrounded;
+    private float verticalVelocity;
+    private bool jumpPressed;
 
     private PlayerControls playerControls;
     private Rigidbody rb;
 
     private Vector3 movement;
     private Vector2 moveInput;
-    public Vector3 direction; 
+    public Vector3 direction;
 
     private const string IS_MOVING_PARAM = "IsMoving";
     private const string ATTACK_TRIGGER = "Attack";
@@ -31,6 +44,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Drop.performed += ctx => OnDropBomb();
         playerControls.Player.ShootFireball.performed += ctx => OnShootFireball();
 
+        // Store jump input instead of jumping immediately
+        playerControls.Player.Jump.performed += ctx => jumpPressed = true;
     }
 
     private void OnEnable()
@@ -41,7 +56,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        attackHitbox.SetActive(false); // ensure hitbox starts disabled
+        attackHitbox.SetActive(false);
+
+        // Freeze Y at start so player stays on ground plane
+        FreezeY();
     }
 
     private void OnDisable()
@@ -51,7 +69,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Read movement input into the CLASS VARIABLE (not a new local one)
         moveInput = playerControls.Player.Move.ReadValue<Vector2>();
 
         float x = moveInput.x;
@@ -79,13 +96,54 @@ public class PlayerController : MonoBehaviour
                 attackHitbox.transform.localPosition.z
             );
         }
+
+        // Ground check
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
+        Debug.Log("Grounded: " + isGrounded);
+
+        // Gravity
+        if (!isGrounded)
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+        else if (verticalVelocity < 0)
+        {
+            verticalVelocity = -2f; // keeps player grounded
+        }
+
+        // Jump logic (only once per press)
+        if (jumpPressed && isGrounded)
+        {
+            UnfreezeY();                     // allow vertical movement
+            animator.SetTrigger("Jump");
+
+            jumpStartY = rb.position.y;      // record starting height
+            verticalVelocity = jumpForce;    // launch upward
+        }
+
+        jumpPressed = false; // consume jump input
+
+        // ⭐ HEIGHT-BASED FREEZE LOGIC ⭐
+        // When player returns close to ground height, freeze Y again
+        if (rb.position.y <= jumpStartY + jumpFreezeHeight)
+        {
+            FreezeY();
+        }
+        else
+        {
+            UnfreezeY(); // allow upward/downward movement
+        }
     }
 
     private void FixedUpdate()
     {
-        // Move using Rigidbody.MovePosition (collisions work even when kinematic)
-        Vector3 targetPos = rb.position + new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(targetPos);
+        // Horizontal movement
+        Vector3 horizontal = new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
+
+        // Vertical movement
+        Vector3 vertical = new Vector3(0, verticalVelocity * Time.fixedDeltaTime, 0);
+
+        rb.MovePosition(rb.position + horizontal + vertical);
     }
 
     private void OnAttack()
@@ -93,72 +151,71 @@ public class PlayerController : MonoBehaviour
         if (isAttacking) return;
 
         isAttacking = true;
-        animator.SetTrigger(ATTACK_TRIGGER);        
+        animator.SetTrigger(ATTACK_TRIGGER);
         StartCoroutine(AttackRoutine());
     }
-    
-        private void OnDropBomb()
+
+    private void OnDropBomb()
     {
         if (PlayerStats.Instance != null)
-      {
-        bool dropped = PlayerStats.Instance.DropBomb();
-        if (dropped)
         {
-            
+            bool dropped = PlayerStats.Instance.DropBomb();
         }
-     }
-      
-                 
+    }
 
-
-
-}
-    
     private void OnShootFireball()
-{
-    if (!PlayerStats.Instance.fireballActive) return;
+    {
+        if (!PlayerStats.Instance.fireballActive) return;
 
-    animator.SetTrigger("FireballCast");
-    StartCoroutine(FireballRoutine());
-}
+        animator.SetTrigger("FireballCast");
+        StartCoroutine(FireballRoutine());
+    }
 
     private IEnumerator FireballRoutine()
-{
-    // Wait for animation timing
-    yield return new WaitForSeconds(0.25f);
+    {
+        yield return new WaitForSeconds(0.25f);
 
-    // Determine direction based on player facing
-    Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
+        Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
 
-    // Spawn fireball (GameObject → Fireball component)
-    GameObject go = Instantiate(PlayerStats.Instance.fireballPrefab,
-                                PlayerStats.Instance.fireballSpawnPoint.position,
-                                Quaternion.identity);
+        GameObject go = Instantiate(PlayerStats.Instance.fireballPrefab,
+                                    PlayerStats.Instance.fireballSpawnPoint.position,
+                                    Quaternion.identity);
 
-    Fireball fb = go.GetComponent<Fireball>();
+        Fireball fb = go.GetComponent<Fireball>();
+        fb.direction = dir;
+    }
 
-    // Assign movement direction
-    fb.direction = dir;
-}
+    // ⭐ FREEZE / UNFREEZE HELPERS ⭐
+    private void FreezeY()
+    {
+        rb.constraints = RigidbodyConstraints.FreezePositionY
+                       | RigidbodyConstraints.FreezeRotationX
+                       | RigidbodyConstraints.FreezeRotationZ;
+    }
 
+    private void UnfreezeY()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeRotationX
+                       | RigidbodyConstraints.FreezeRotationZ;
+    }
 
-
-    
     private IEnumerator AttackRoutine()
     {
-        // Enable hitbox at the correct frame
         yield return new WaitForSeconds(0.15f);
         attackHitbox.SetActive(true);
 
-        // Keep hitbox active for the hit window
         yield return new WaitForSeconds(0.2f);
         attackHitbox.SetActive(false);
 
-        // Cooldown before next attack
         yield return new WaitForSeconds(0.45f);
         isAttacking = false;
     }
 }
+
+
+
+
+
 
 
 
