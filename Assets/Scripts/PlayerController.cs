@@ -9,22 +9,32 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform shadowTransform;
 
-
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
 
- 
+    // ---------------- DASH SETTINGS ----------------
+    [Header("Dash Settings")]
+    [SerializeField] private float dashSpeed = 12f;
+    [SerializeField] private float dashDuration = 0.15f;
+    [SerializeField] private float dashCooldown = 0.5f;
 
-    private bool isGrounded;
-    private float verticalVelocity;
-    private bool jumpPressed;
+    private bool isDashing = false;
+    private bool canDash = true;
+    private Vector3 dashDirection;
+
+    // ---------------- AFTERIMAGE SETTINGS ----------------
+    [Header("Afterimage Settings")]
+    [SerializeField] private GameObject ghostPrefab;
+    [SerializeField] private float ghostSpawnInterval = 0.03f;
+    [SerializeField] private float ghostLifetime = 0.25f;
+    [SerializeField] private Color ghostColor = new Color(1f, 1f, 1f, 0.6f);
+    // -----------------------------------------------------
 
     private PlayerControls playerControls;
     private Rigidbody rb;
 
     private Vector3 movement;
     private Vector2 moveInput;
-    public Vector3 direction;
 
     private const string IS_MOVING_PARAM = "IsMoving";
     private const string ATTACK_TRIGGER = "Attack";
@@ -38,8 +48,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Drop.performed += ctx => OnDropBomb();
         playerControls.Player.ShootFireball.performed += ctx => OnShootFireball();
 
-        // Store jump input instead of jumping immediately
-        
+        // DASH INPUT
+        playerControls.Player.Dash.performed += ctx => OnDash();
     }
 
     private void OnEnable()
@@ -51,9 +61,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         attackHitbox.SetActive(false);
-
-        // Freeze Y at start so player stays on ground plane
-       
     }
 
     private void OnDisable()
@@ -71,16 +78,17 @@ public class PlayerController : MonoBehaviour
         movement = new Vector3(x, 0, z).normalized;
         animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
 
-        // Flip sprite + hitbox
+        // Flip sprite + shadow + hitbox
         if (x < 0)
         {
             playerSprite.flipX = true;
-            shadowTransform.localScale = new Vector3(-Mathf.Abs(shadowTransform.localScale.x),
-                                             shadowTransform.localScale.y,
-                                             shadowTransform.localScale.z);
-            
-            attackHitbox.transform.localPosition = new Vector3
-            (
+            shadowTransform.localScale = new Vector3(
+                -Mathf.Abs(shadowTransform.localScale.x),
+                shadowTransform.localScale.y,
+                shadowTransform.localScale.z
+            );
+
+            attackHitbox.transform.localPosition = new Vector3(
                 -Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
@@ -89,31 +97,111 @@ public class PlayerController : MonoBehaviour
         else if (x > 0)
         {
             playerSprite.flipX = false;
-            shadowTransform.localScale = new Vector3(Mathf.Abs(shadowTransform.localScale.x),
-                                             shadowTransform.localScale.y,
-                                             shadowTransform.localScale.z);
-            attackHitbox.transform.localPosition = new Vector3
-            (
+            shadowTransform.localScale = new Vector3(
+                Mathf.Abs(shadowTransform.localScale.x),
+                shadowTransform.localScale.y,
+                shadowTransform.localScale.z
+            );
+
+            attackHitbox.transform.localPosition = new Vector3(
                 Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
             );
         }
-        
-       
-
     }
 
     private void FixedUpdate()
     {
-        // Horizontal movement
+        // ---------------- DASH MOVEMENT OVERRIDE ----------------
+        if (isDashing)
+        {
+            rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
+            return; // skip normal movement
+        }
+        // ---------------------------------------------------------
+
+        // Normal movement
         Vector3 horizontal = new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
-
-        // Vertical movement
-        Vector3 vertical = new Vector3(0, verticalVelocity * Time.fixedDeltaTime, 0);
-
-        rb.MovePosition(rb.position + horizontal + vertical);
+        rb.MovePosition(rb.position + horizontal);
     }
+
+    // ---------------- DASH LOGIC ----------------
+    private void OnDash()
+    {
+        if (!canDash || isDashing) return;
+
+        isDashing = true;
+        canDash = false;
+
+        // Dash direction: movement OR facing direction
+        dashDirection = movement.sqrMagnitude > 0.1f
+            ? movement.normalized
+            : (playerSprite.flipX ? Vector3.left : Vector3.right);
+
+        StartCoroutine(DashRoutine());
+        StartCoroutine(SpawnGhostsDuringDash());
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        float timer = dashDuration;
+
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        isDashing = false;
+        StartCoroutine(DashCooldownRoutine());
+    }
+
+    private IEnumerator DashCooldownRoutine()
+    {
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+    // ---------------------------------------------------------
+
+    // ---------------- AFTERIMAGE LOGIC ----------------
+    private IEnumerator SpawnGhostsDuringDash()
+    {
+        while (isDashing)
+        {
+            SpawnGhost();
+            yield return new WaitForSeconds(ghostSpawnInterval);
+        }
+    }
+
+    private void SpawnGhost()
+    {
+        GameObject ghost = Instantiate(ghostPrefab, transform.position, transform.rotation);
+
+        SpriteRenderer ghostSR = ghost.GetComponent<SpriteRenderer>();
+        ghostSR.sprite = playerSprite.sprite;
+        ghostSR.flipX = playerSprite.flipX;
+        ghostSR.color = ghostColor;
+
+        StartCoroutine(FadeAndDestroyGhost(ghostSR));
+    }
+
+    private IEnumerator FadeAndDestroyGhost(SpriteRenderer ghostSR)
+    {
+        float timer = ghostLifetime;
+        Color c = ghostSR.color;
+
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            c.a = Mathf.Lerp(0f, ghostColor.a, timer / ghostLifetime);
+            ghostSR.color = c;
+            yield return null;
+        }
+
+        Destroy(ghostSR.gameObject);
+    }
+    // ---------------------------------------------------------
 
     private void OnAttack()
     {
@@ -146,8 +234,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
 
-        GameObject go = Instantiate
-        (
+        GameObject go = Instantiate(
             PlayerStats.Instance.fireballPrefab,
             PlayerStats.Instance.fireballSpawnPoint.position,
             Quaternion.identity
@@ -157,8 +244,6 @@ public class PlayerController : MonoBehaviour
         fb.direction = dir;
     }
 
-    // ⭐ FREEZE / UNFREEZE HELPERS ⭐
-   
     private IEnumerator AttackRoutine()
     {
         yield return new WaitForSeconds(0.15f);
@@ -171,6 +256,8 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 }
+
+
 
 
 

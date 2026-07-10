@@ -4319,7 +4319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1017271034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4327,7 +4327,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017271033}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -4424,7 +4424,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017271033}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1785e6474fedc4588e244003720707, type: 3}
   m_Name: 
@@ -4575,7 +4575,13 @@ MonoBehaviour:
   moveSpeed: 10
   shadowTransform: {fileID: 1523669063}
   attackHitbox: {fileID: 1048389752}
-  direction: {x: 0, y: 0, z: 0}
+  dashSpeed: 25
+  dashDuration: 0.15
+  dashCooldown: 0.5
+  ghostPrefab: {fileID: 5579329067514258666, guid: eae995e061658ca4cbc944d2a63f7eda, type: 3}
+  ghostSpawnInterval: 0.03
+  ghostLifetime: 0.25
+  ghostColor: {r: 1, g: 1, b: 1, a: 0.6}
 --- !u!136 &1031860902
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8642,7 +8648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2143874572
 MonoBehaviour:
   m_ObjectHideFlags: 0
