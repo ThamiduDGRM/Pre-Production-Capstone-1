@@ -75,8 +75,6 @@ MonoBehaviour:
   detectionRange: 22
   attackRange: 1.5
   animator: {fileID: 6352230182085981554}
-  enemySprite: {fileID: 4689251591048522077}
-  shadowTransform: {fileID: 0}
 --- !u!114 &6249276703773807721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +91,8 @@ MonoBehaviour:
   punchAudio: {fileID: -124209095090438033}
   coinPrefab: {fileID: 7417351049591250900, guid: 21c8371741262704990cc34185b50e76, type: 3}
   coinsToDrop: 1
-  enemySprite: {fileID: 4689251591048522077}
+  defaultMaterial: {fileID: -876546973899608171, guid: 0811ef14a3e5da641877783091237891, type: 3}
+  flashMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   flashDuration: 0.2
 --- !u!82 &-124209095090438033
 AudioSource:

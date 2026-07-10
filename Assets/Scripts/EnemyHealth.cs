@@ -13,15 +13,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public GameObject coinPrefab;
     public int coinsToDrop = 1;
 
-    private Renderer enemyRenderer;
+    private SpriteRenderer enemyRenderer;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material flashMaterial;
     private Color originalColor;
     public float flashDuration = 0.1f;
 
     private void Start()
     {
         currentHealth = maxHealth;
-        enemyRenderer = GetComponentInChildren<Renderer>();
-        originalColor = enemyRenderer.material.color;
+        enemyRenderer = GetComponentInChildren<SpriteRenderer>();
+        originalColor = enemyRenderer.color;
     }
 
     public void TakeDamage(int amount)
@@ -49,9 +51,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private IEnumerator FlashRed()
     {
-        enemyRenderer.material.color = Color.red;
+        enemyRenderer.material = flashMaterial;
         yield return new WaitForSeconds(flashDuration);
-        enemyRenderer.material.color = originalColor;
+        enemyRenderer.material = defaultMaterial;
+        enemyRenderer.color = Color.red;
     }
 
     private IEnumerator Die()
@@ -59,13 +62,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         float fadeTime = 0.3f;
         float t = 0f;
 
-        Color c = enemyRenderer.material.color;
+        Color c = enemyRenderer.color;
 
         while (t < fadeTime)
         {
             t += Time.deltaTime;
             c.a = Mathf.Lerp(1f, 0f, t / fadeTime);
-            enemyRenderer.material.color = c;
+            enemyRenderer.color = c;
             yield return null;
         }
 
