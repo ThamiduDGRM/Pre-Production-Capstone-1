@@ -46,13 +46,15 @@ public class EnemyAI : MonoBehaviour
 
         animator.SetBool("IsMoving", true);
 
-        Vector3 targetPos = new Vector3(
+        Vector3 targetPos = new Vector3
+        (
             player.position.x,
             transform.position.y,
             player.position.z
         );
 
-        transform.position = Vector3.MoveTowards(
+        transform.position = Vector3.MoveTowards
+        (
             transform.position,
             targetPos,
             chaseSpeed * Time.deltaTime
@@ -104,5 +106,7 @@ public class EnemyAI : MonoBehaviour
             transform.localScale = originalScale;
     }
 }
+
+
 
 

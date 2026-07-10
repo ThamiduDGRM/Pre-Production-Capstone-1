@@ -82,13 +82,15 @@ public class PlayerController : MonoBehaviour
         if (x < 0)
         {
             playerSprite.flipX = true;
-            shadowTransform.localScale = new Vector3(
+            shadowTransform.localScale = new Vector3
+            (
                 -Mathf.Abs(shadowTransform.localScale.x),
                 shadowTransform.localScale.y,
                 shadowTransform.localScale.z
             );
 
-            attackHitbox.transform.localPosition = new Vector3(
+            attackHitbox.transform.localPosition = new Vector3
+            (
                 -Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
@@ -97,13 +99,15 @@ public class PlayerController : MonoBehaviour
         else if (x > 0)
         {
             playerSprite.flipX = false;
-            shadowTransform.localScale = new Vector3(
+            shadowTransform.localScale = new Vector3
+            (
                 Mathf.Abs(shadowTransform.localScale.x),
                 shadowTransform.localScale.y,
                 shadowTransform.localScale.z
             );
 
-            attackHitbox.transform.localPosition = new Vector3(
+            attackHitbox.transform.localPosition = new Vector3
+            (
                 Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
@@ -234,7 +238,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
 
-        GameObject go = Instantiate(
+        GameObject go = Instantiate
+        (
             PlayerStats.Instance.fireballPrefab,
             PlayerStats.Instance.fireballSpawnPoint.position,
             Quaternion.identity
@@ -252,7 +257,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         attackHitbox.SetActive(false);
 
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.15f);
         isAttacking = false;
     }
 }
