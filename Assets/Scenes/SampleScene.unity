@@ -7762,7 +7762,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4e9f19e7970cd5d4ebbcacaca28981c9, type: 2}
   - {fileID: 11400000, guid: f7293ee50bc6c0f4fa744ab724d814c9, type: 2}
   powerUpUI: {fileID: 120991234}
-  coinThreshold: 6
+  coinThreshold: 4
 --- !u!1001 &1929293712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8579,7 +8579,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143874571}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 397b02e94cb196140872c82ee78b3a1e, type: 3}
   m_Name: 
