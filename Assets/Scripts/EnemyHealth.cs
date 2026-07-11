@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [SerializeField] private Material defaultMaterial;
     [SerializeField] private Material flashMaterial;
     private Color originalColor;
-    public float flashDuration = 0.1f;
+    public float flashDuration = 0.4f;
 
     private void Start()
     {

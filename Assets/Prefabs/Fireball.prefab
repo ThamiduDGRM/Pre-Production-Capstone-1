@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fireball
   speed: 3
-  damage: 5
+  damage: 1
   lifetime: 5
   direction: {x: 0, y: 0, z: 0}
 --- !u!95 &3242705190401852

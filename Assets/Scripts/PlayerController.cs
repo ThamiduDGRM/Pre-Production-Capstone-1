@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         attackHitbox.SetActive(false);
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.08f);
         isAttacking = false;
     }
 }

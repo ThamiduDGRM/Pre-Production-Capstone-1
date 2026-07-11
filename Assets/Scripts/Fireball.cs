@@ -1,16 +1,21 @@
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class Fireball : MonoBehaviour
 {
     public float speed = 10f;
-    public int damage = 5;
+    public int damage = 1;
     public float lifetime = 3f;
-
+   
     // Assigned by PlayerController when spawning
     public Vector3 direction;
+    
+  
 
     private void Start()
     {
+        
         Destroy(gameObject, lifetime);
     }
 
@@ -33,7 +38,7 @@ public class Fireball : MonoBehaviour
             return;
 
         // Only damage enemies
-        if (!other.CompareTag("Enemy"))
+        if (!other.CompareTag("Enemy"))                
             return;
 
         IDamageable dmg = other.GetComponent<IDamageable>();
@@ -43,6 +48,13 @@ public class Fireball : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
+
+
+
+
+
 }
 
 
