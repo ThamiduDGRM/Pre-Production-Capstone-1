@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca929dc4f1bb95419dc858933fa94bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fireball
-  speed: 3
+  speed: 5
   damage: 1
   lifetime: 5
   direction: {x: 0, y: 0, z: 0}
