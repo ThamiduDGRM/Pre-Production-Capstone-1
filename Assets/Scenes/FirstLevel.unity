@@ -1404,7 +1404,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.16583599, y: 3.3871128e-10, z: 1.8402247e-11, w: 0.98615336}
-  m_LocalPosition: {x: 8.48, y: -4.5340004, z: -15.1}
+  m_LocalPosition: {x: -14.27, y: -4.5340004, z: -15.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3127,7 +3127,7 @@ Transform:
   m_GameObject: {fileID: 776128212}
   serializedVersion: 2
   m_LocalRotation: {x: 0.16583599, y: 3.3871128e-10, z: 1.8402247e-11, w: 0.98615336}
-  m_LocalPosition: {x: 8.48, y: -4.5340004, z: -15.1}
+  m_LocalPosition: {x: -14.27, y: -4.5340004, z: -15.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4505,6 +4505,7 @@ GameObject:
   - component: {fileID: 1031860905}
   - component: {fileID: 1031860900}
   - component: {fileID: 1031860902}
+  - component: {fileID: 1031860906}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4521,7 +4522,7 @@ Transform:
   m_GameObject: {fileID: 1031860898}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.48, y: -8.144, z: -4.67}
+  m_LocalPosition: {x: -14.27, y: -8.144, z: -4.67}
   m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4573,6 +4574,7 @@ MonoBehaviour:
   playerSprite: {fileID: 1523669064}
   moveSpeed: 10
   shadowTransform: {fileID: 1523669063}
+  dashAudio: {fileID: 1031860906}
   attackHitbox: {fileID: 1048389752}
   dashSpeed: 25
   dashDuration: 0.15
@@ -4641,6 +4643,103 @@ MonoBehaviour:
   fireballDuration: 5
   fireballPrefab: {fileID: 3880674875445305410, guid: 8f294470f6d30d24f83510e6ae6ee0c6, type: 3}
   fireballSpawnPoint: {fileID: 933955791}
+--- !u!82 &1031860906
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031860898}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 3b3d2b6f0e00f884695632287c8ca739, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1046156591
 GameObject:
   m_ObjectHideFlags: 0
@@ -5946,7 +6045,7 @@ Transform:
   m_GameObject: {fileID: 1272757448}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32.5, y: -6.9, z: -5.2}
+  m_LocalPosition: {x: 5.99, y: -6.9, z: -5.2}
   m_LocalScale: {x: 0.59, y: 0.59, z: 0.59}
   m_ConstrainProportionsScale: 1
   m_Children: []

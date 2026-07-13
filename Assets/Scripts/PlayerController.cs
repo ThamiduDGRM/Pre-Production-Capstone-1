@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform shadowTransform;
+    [SerializeField] private AudioSource dashAudio;
 
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
@@ -44,11 +45,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerControls = new PlayerControls();
+
         playerControls.Player.Attack.performed += ctx => OnAttack();
         playerControls.Player.Drop.performed += ctx => OnDropBomb();
         playerControls.Player.ShootFireball.performed += ctx => OnShootFireball();
 
-        // DASH INPUT
+        // DASH INPUT (Left Shift)
         playerControls.Player.Dash.performed += ctx => OnDash();
     }
 
@@ -82,15 +84,13 @@ public class PlayerController : MonoBehaviour
         if (x < 0)
         {
             playerSprite.flipX = true;
-            shadowTransform.localScale = new Vector3
-            (
+            shadowTransform.localScale = new Vector3(
                 -Mathf.Abs(shadowTransform.localScale.x),
                 shadowTransform.localScale.y,
                 shadowTransform.localScale.z
             );
 
-            attackHitbox.transform.localPosition = new Vector3
-            (
+            attackHitbox.transform.localPosition = new Vector3(
                 -Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
@@ -99,15 +99,13 @@ public class PlayerController : MonoBehaviour
         else if (x > 0)
         {
             playerSprite.flipX = false;
-            shadowTransform.localScale = new Vector3
-            (
+            shadowTransform.localScale = new Vector3(
                 Mathf.Abs(shadowTransform.localScale.x),
                 shadowTransform.localScale.y,
                 shadowTransform.localScale.z
             );
 
-            attackHitbox.transform.localPosition = new Vector3
-            (
+            attackHitbox.transform.localPosition = new Vector3(
                 Mathf.Abs(attackHitbox.transform.localPosition.x),
                 attackHitbox.transform.localPosition.y,
                 attackHitbox.transform.localPosition.z
@@ -121,7 +119,7 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
-            return; // skip normal movement
+            return;
         }
         // ---------------------------------------------------------
 
@@ -134,6 +132,8 @@ public class PlayerController : MonoBehaviour
     private void OnDash()
     {
         if (!canDash || isDashing) return;
+
+        dashAudio.Play();   // Play dash sound
 
         isDashing = true;
         canDash = false;
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerStats.Instance != null)
         {
-            bool dropped = PlayerStats.Instance.DropBomb();
+            PlayerStats.Instance.DropBomb();
         }
     }
 
@@ -238,8 +238,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dir = playerSprite.flipX ? Vector3.left : Vector3.right;
 
-        GameObject go = Instantiate
-        (
+        GameObject go = Instantiate(
             PlayerStats.Instance.fireballPrefab,
             PlayerStats.Instance.fireballSpawnPoint.position,
             Quaternion.identity
@@ -261,6 +260,7 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 }
+
 
 
 
