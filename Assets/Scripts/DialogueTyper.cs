@@ -14,6 +14,9 @@ public class DialogueTyper : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource narrationAudio;
 
+    public System.Action onDialogueFinished;
+
+
     public void StartDialogue(string text)
     {
         StartCoroutine(TypeRoutine(text));
@@ -41,6 +44,7 @@ public class DialogueTyper : MonoBehaviour
         }
 
         narrationAudio.Stop();
+        onDialogueFinished?.Invoke();
     }
 }
 

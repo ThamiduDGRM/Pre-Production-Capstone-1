@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform shadowTransform;
     [SerializeField] private AudioSource dashAudio;
+    [SerializeField] private LevelCountdown countdown;
+
 
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
@@ -71,47 +73,52 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
+ {
+    // BLOCK ALL GAMEPLAY UNTIL COUNTDOWN IS DONE
+    if (!countdown.countdownFinished)
+        return;
+
+    moveInput = playerControls.Player.Move.ReadValue<Vector2>();
+
+    float x = moveInput.x;
+    float z = moveInput.y;
+
+    movement = new Vector3(x, 0, z).normalized;
+    animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
+
+    // Flip sprite + shadow + hitbox
+    if (x < 0)
     {
-        moveInput = playerControls.Player.Move.ReadValue<Vector2>();
+        playerSprite.flipX = true;
+        shadowTransform.localScale = new Vector3(
+            -Mathf.Abs(shadowTransform.localScale.x),
+            shadowTransform.localScale.y,
+            shadowTransform.localScale.z
+        );
 
-        float x = moveInput.x;
-        float z = moveInput.y;
-
-        movement = new Vector3(x, 0, z).normalized;
-        animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
-
-        // Flip sprite + shadow + hitbox
-        if (x < 0)
-        {
-            playerSprite.flipX = true;
-            shadowTransform.localScale = new Vector3(
-                -Mathf.Abs(shadowTransform.localScale.x),
-                shadowTransform.localScale.y,
-                shadowTransform.localScale.z
-            );
-
-            attackHitbox.transform.localPosition = new Vector3(
-                -Mathf.Abs(attackHitbox.transform.localPosition.x),
-                attackHitbox.transform.localPosition.y,
-                attackHitbox.transform.localPosition.z
-            );
-        }
-        else if (x > 0)
-        {
-            playerSprite.flipX = false;
-            shadowTransform.localScale = new Vector3(
-                Mathf.Abs(shadowTransform.localScale.x),
-                shadowTransform.localScale.y,
-                shadowTransform.localScale.z
-            );
-
-            attackHitbox.transform.localPosition = new Vector3(
-                Mathf.Abs(attackHitbox.transform.localPosition.x),
-                attackHitbox.transform.localPosition.y,
-                attackHitbox.transform.localPosition.z
-            );
-        }
+        attackHitbox.transform.localPosition = new Vector3(
+            -Mathf.Abs(attackHitbox.transform.localPosition.x),
+            attackHitbox.transform.localPosition.y,
+            attackHitbox.transform.localPosition.z
+        );
     }
+    else if (x > 0)
+    {
+        playerSprite.flipX = false;
+        shadowTransform.localScale = new Vector3(
+            Mathf.Abs(shadowTransform.localScale.x),
+            shadowTransform.localScale.y,
+            shadowTransform.localScale.z
+        );
+
+        attackHitbox.transform.localPosition = new Vector3(
+            Mathf.Abs(attackHitbox.transform.localPosition.x),
+            attackHitbox.transform.localPosition.y,
+            attackHitbox.transform.localPosition.z
+        );
+    }
+ }
+
 
     private void FixedUpdate()
     {
@@ -209,6 +216,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnAttack()
     {
+        
+        if (!countdown.countdownFinished)
+        return;
+        
         if (isAttacking) return;
 
         isAttacking = true;
