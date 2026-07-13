@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   chaseSpeed: 4
-  detectionRange: 22
+  detectionRange: 26
   attackRange: 1.5
   animator: {fileID: 6352230182085981554}
 --- !u!114 &6249276703773807721
