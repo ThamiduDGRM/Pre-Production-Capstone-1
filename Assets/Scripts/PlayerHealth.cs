@@ -62,6 +62,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         Debug.Log("PLAYER DIED");
+        GameManager.Instance.StopTimer();
         GameOverUI ui = FindFirstObjectByType<GameOverUI>();
         ui?.ShowGameOver();
     }

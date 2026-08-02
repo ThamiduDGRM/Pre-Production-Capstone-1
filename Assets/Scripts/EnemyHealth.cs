@@ -35,8 +35,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            onDeath?.Invoke();
+            onDeath?.Invoke();            
             DropCoins();
+            GameManager.Instance.AddKill();
             StartCoroutine(Die());
         }
     }
