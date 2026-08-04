@@ -2081,8 +2081,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.0976385}
-  m_Center: {x: 9.059479e-17, y: 0, z: -0.048808496}
+  m_Size: {x: 1, y: 1, z: 1.4603615}
+  m_Center: {x: -1.3209616e-16, y: 0, z: -0.23016836}
 --- !u!23 &436784221
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2774,8 +2774,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 5.368104}
-  m_Center: {x: -2.9528853e-12, y: 0, z: 2.1840622}
+  m_Size: {x: 1, y: 1, z: 8.364506}
+  m_Center: {x: -1.1716909e-11, y: 0, z: 3.6822953}
 --- !u!23 &557151470
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8468,8 +8468,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.1645842}
-  m_Center: {x: -5.278147e-18, y: 0, z: -0.0153357675}
+  m_Size: {x: 1, y: 1, z: 1.7887902}
+  m_Center: {x: -7.659645e-17, y: 0, z: 0.29676282}
 --- !u!23 &1912684301
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9006,8 +9006,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.0976385}
-  m_Center: {x: 9.059479e-17, y: 0, z: -0.048808496}
+  m_Size: {x: 1, y: 1, z: 3.5801167}
+  m_Center: {x: 0, y: 0, z: -1.2900447}
 --- !u!23 &2051153591
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9431,7 +9431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2143874572
 MonoBehaviour:
   m_ObjectHideFlags: 0
