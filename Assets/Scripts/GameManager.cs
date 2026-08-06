@@ -18,9 +18,19 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        // Timer should be visible immediately
+        timerText.text = "00:00";        
+    }
+
     private void Update()
     {
         if (!isRunning) return;
+
+        // Wait until countdown is done
+        if (!LevelCountdown.Instance.countdownFinished)
+            return;
 
         timer += Time.deltaTime;
         UpdateTimerUI();
@@ -45,4 +55,5 @@ public class GameManager : MonoBehaviour
         isRunning = false;
     }
 }
+
 

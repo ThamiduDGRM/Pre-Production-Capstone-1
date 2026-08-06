@@ -11,11 +11,17 @@ public class LevelCountdown : MonoBehaviour
     [SerializeField] private AudioSource announcerAudio;
 
     public bool countdownFinished { get; private set; } = false;
+    public static LevelCountdown Instance;
 
     // LevelFadeIn will call this
     public void BeginCountdown()
     {
         StartCoroutine(CountdownRoutine());
+    }
+             
+    private void Awake()
+    {
+        Instance = this;
     }
 
     private IEnumerator CountdownRoutine()
