@@ -8396,6 +8396,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4104398498253946781, guid: e3808ecdd8868b043903cd87959b0532, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8838522516668291161, guid: e3808ecdd8868b043903cd87959b0532, type: 3}
       propertyPath: chaseSpeed
       value: 3
