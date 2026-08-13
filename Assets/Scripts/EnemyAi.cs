@@ -36,7 +36,8 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            animator.SetBool("IsMoving", false); // idle
+            animator.SetBool("IsMoving", false); // idle           
+            
         }
     }
 
