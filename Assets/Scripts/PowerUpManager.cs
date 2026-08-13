@@ -32,15 +32,21 @@ public class PowerUpManager : MonoBehaviour
 
     public void ShowPowerUpSelection()
     {
-        Time.timeScale = 0f; // pause game
-        powerUpUI.SetActive(true);
+        Time.timeScale = 0f; // pause game        
+        PlayerController pc = FindFirstObjectByType<PlayerController>();
+        pc.DisableInput();
 
         PowerUpUI.Instance.DisplayRandomCards(allPowerUps);
+        
+        powerUpUI.GetComponent<UIFader>().FadeIn();
+
     }
 
     public void ApplyPowerUp(PowerUp p)
     {
         PlayerStats.Instance.ApplyPowerUp(p);
+        PlayerController pc = FindFirstObjectByType<PlayerController>();
+        pc.EnableInput();
         
         CurrencyManager.Instance.coins = 0;
         CurrencyManager.Instance.UpdateUI();

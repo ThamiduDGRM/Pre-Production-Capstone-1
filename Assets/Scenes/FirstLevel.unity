@@ -338,6 +338,8 @@ GameObject:
   - component: {fileID: 120991237}
   - component: {fileID: 120991236}
   - component: {fileID: 120991238}
+  - component: {fileID: 120991240}
+  - component: {fileID: 120991239}
   m_Layer: 5
   m_Name: PowerUpUI
   m_TagString: Untagged
@@ -423,6 +425,32 @@ MonoBehaviour:
   - {fileID: 1175555292}
   - {fileID: 707413385}
   - {fileID: 4334042400031969381, guid: 355265043e3bb464d923292da7eda0df, type: 3}
+--- !u!225 &120991239
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120991234}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &120991240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120991234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b04867481dd4f1c4586728a526f8f3b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIFader
+  group: {fileID: 120991239}
+  fadeDuration: 0.9
 --- !u!1 &159060174
 GameObject:
   m_ObjectHideFlags: 0
@@ -6969,7 +6997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -575.6125, y: 306}
+  m_AnchoredPosition: {x: -577.6, y: 306}
   m_SizeDelta: {x: 525.6045, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1415211797
@@ -6992,7 +7020,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Timer:'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f5e048bf95a77c4daa0f846589d7b94, type: 2}
   m_sharedMaterial: {fileID: -598244952767678135, guid: 5f5e048bf95a77c4daa0f846589d7b94, type: 2}
@@ -9431,7 +9459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2143874572
 MonoBehaviour:
   m_ObjectHideFlags: 0

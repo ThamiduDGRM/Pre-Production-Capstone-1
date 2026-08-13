@@ -270,6 +270,24 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.08f);
         isAttacking = false;
     }
+    
+    public void DisableInput()
+    {
+        playerControls.Disable();
+    }
+
+    public void EnableInput()
+    {
+        playerControls.Enable();
+    }
+
+
+
+
+
+
+
+
 }
 
 
