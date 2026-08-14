@@ -4710,6 +4710,7 @@ MonoBehaviour:
   Heal: 30
   coinMultiplier: 1
   bombCount: 1
+  bombAbilityUnlocked: 0
   bombPrefab: {fileID: 9176415465131669342, guid: b8d4b06c6af6c854ca259a0e8349b7a1, type: 3}
   bombSpawnPoint: {fileID: 1031860899}
   fireballActive: 0
