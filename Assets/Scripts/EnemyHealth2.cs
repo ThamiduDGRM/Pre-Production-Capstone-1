@@ -37,6 +37,8 @@ public class EnemyHealth2 : MonoBehaviour, IDamageable
         {
             onDeath?.Invoke();
             DropCoins();
+            GameManager.Instance.AddKill();
+            LevelManager.Instance.RegisterKill();
             StartCoroutine(Die());
         }
     }

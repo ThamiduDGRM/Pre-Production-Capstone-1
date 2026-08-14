@@ -44,7 +44,10 @@ public class LevelCountdown : MonoBehaviour
 
         countdownText.text = "GO!";
         yield return new WaitForSeconds(countdownSpeed);
-
+        
+        countdownText.text = "Kill All Enemies!";
+        yield return new WaitForSeconds(countdownSpeed);
+        
         countdownText.gameObject.SetActive(false);
 
         countdownFinished = true;

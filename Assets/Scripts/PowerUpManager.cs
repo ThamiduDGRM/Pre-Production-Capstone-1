@@ -32,15 +32,18 @@ public class PowerUpManager : MonoBehaviour
 
     public void ShowPowerUpSelection()
     {
-        Time.timeScale = 0f; // pause game        
-        PlayerController pc = FindFirstObjectByType<PlayerController>();
+        Time.timeScale = 0f;
+
+        PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
         pc.DisableInput();
 
-        PowerUpUI.Instance.DisplayRandomCards(allPowerUps);
-        
-        powerUpUI.GetComponent<UIFader>().FadeIn();
+        // 🔥 Disable card buttons BEFORE fade starts
+        PowerUpUI.Instance.PrepareCards(allPowerUps);
 
+        // 🔥 Fade in AFTER cards are disabled
+        powerUpUI.GetComponent<UIFader>().FadeIn();
     }
+
 
     public void ApplyPowerUp(PowerUp p)
     {

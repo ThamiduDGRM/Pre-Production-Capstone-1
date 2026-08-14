@@ -11,7 +11,7 @@ public class EnemyAi2 : MonoBehaviour
     private bool isAttacking = false;
     private Vector3 originalScale;
 
-    public int damageToPlayer = 3;
+    public int damageToPlayer = 8;
 
     private void Start()
     {

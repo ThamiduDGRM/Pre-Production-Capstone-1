@@ -4,28 +4,48 @@ public class PowerUpUI : MonoBehaviour
 {
     public static PowerUpUI Instance;
 
-    public PowerUpCard[] cards;   // MUST be size 4 in Inspector
+    public PowerUpCard[] cards;
+    private UIFader fader;
 
     private void Awake()
     {
         Instance = this;
+        fader = GetComponent<UIFader>();
+
+        // Enable cards ONLY when fade finishes
+        fader.onFadeComplete = EnableCards;
     }
 
-    public void DisplayRandomCards(PowerUp[] all)
+    // Called BEFORE fade starts
+    public void PrepareCards(PowerUp[] all)
     {
-        if (all.Length < 4)
+        if (all.Length < cards.Length)
         {
-            Debug.LogError("Need at least 4 power-ups in the array!");
+            Debug.LogError("Not enough power-ups in array!");
             return;
         }
-     
-        // Assign all 4 cards
-        cards[0].Setup(all[0]);
-        cards[1].Setup(all[1]);
-        cards[2].Setup(all[2]);
-        cards[3].Setup(all[3]);
 
-        gameObject.SetActive(true);
+        // Assign card visuals
+        for (int i = 0; i < cards.Length; i++)
+            cards[i].Setup(all[i]);
+
+        // Disable buttons BEFORE fade
+        DisableCards();
+    }
+
+    private void DisableCards()
+    {
+        foreach (var card in cards)
+            card.SetInteractable(false);
+    }
+
+    private void EnableCards()
+    {
+        foreach (var card in cards)
+            card.SetInteractable(true);
     }
 }
+
+
+
 

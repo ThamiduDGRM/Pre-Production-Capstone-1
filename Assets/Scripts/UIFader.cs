@@ -5,6 +5,7 @@ public class UIFader : MonoBehaviour
 {
     [SerializeField] private CanvasGroup group;
     [SerializeField] private float fadeDuration = 0.4f;
+    public System.Action onFadeComplete;
 
     private void Awake()
     {
@@ -40,6 +41,9 @@ public class UIFader : MonoBehaviour
         group.interactable = end == 1f;
         group.blocksRaycasts = end == 1f;
 
+        if (end == 1f)
+            onFadeComplete?.Invoke();
+        
         if (end == 0f)
             gameObject.SetActive(false);
     }
