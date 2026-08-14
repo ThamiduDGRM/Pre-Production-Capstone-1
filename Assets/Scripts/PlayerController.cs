@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource dashAudio;
     [SerializeField] private LevelCountdown countdown;
 
-
     [Header("Attack Settings")]
     [SerializeField] private GameObject attackHitbox;
 
@@ -73,52 +72,51 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
- {
-    // BLOCK ALL GAMEPLAY UNTIL COUNTDOWN IS DONE
-    if (!countdown.countdownFinished)
-        return;
-
-    moveInput = playerControls.Player.Move.ReadValue<Vector2>();
-
-    float x = moveInput.x;
-    float z = moveInput.y;
-
-    movement = new Vector3(x, 0, z).normalized;
-    animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
-
-    // Flip sprite + shadow + hitbox
-    if (x < 0)
     {
-        playerSprite.flipX = true;
-        shadowTransform.localScale = new Vector3(
-            -Mathf.Abs(shadowTransform.localScale.x),
-            shadowTransform.localScale.y,
-            shadowTransform.localScale.z
-        );
+        // BLOCK ALL GAMEPLAY UNTIL COUNTDOWN IS DONE
+        if (!countdown.countdownFinished)
+            return;
 
-        attackHitbox.transform.localPosition = new Vector3(
-            -Mathf.Abs(attackHitbox.transform.localPosition.x),
-            attackHitbox.transform.localPosition.y,
-            attackHitbox.transform.localPosition.z
-        );
+        moveInput = playerControls.Player.Move.ReadValue<Vector2>();
+
+        float x = moveInput.x;
+        float z = moveInput.y;
+
+        movement = new Vector3(x, 0, z).normalized;
+        animator.SetBool(IS_MOVING_PARAM, movement != Vector3.zero);
+
+        // Flip sprite + shadow + hitbox
+        if (x < 0)
+        {
+            playerSprite.flipX = true;
+            shadowTransform.localScale = new Vector3(
+                -Mathf.Abs(shadowTransform.localScale.x),
+                shadowTransform.localScale.y,
+                shadowTransform.localScale.z
+            );
+
+            attackHitbox.transform.localPosition = new Vector3(
+                -Mathf.Abs(attackHitbox.transform.localPosition.x),
+                attackHitbox.transform.localPosition.y,
+                attackHitbox.transform.localPosition.z
+            );
+        }
+        else if (x > 0)
+        {
+            playerSprite.flipX = false;
+            shadowTransform.localScale = new Vector3(
+                Mathf.Abs(shadowTransform.localScale.x),
+                shadowTransform.localScale.y,
+                shadowTransform.localScale.z
+            );
+
+            attackHitbox.transform.localPosition = new Vector3(
+                Mathf.Abs(attackHitbox.transform.localPosition.x),
+                attackHitbox.transform.localPosition.y,
+                attackHitbox.transform.localPosition.z
+            );
+        }
     }
-    else if (x > 0)
-    {
-        playerSprite.flipX = false;
-        shadowTransform.localScale = new Vector3(
-            Mathf.Abs(shadowTransform.localScale.x),
-            shadowTransform.localScale.y,
-            shadowTransform.localScale.z
-        );
-
-        attackHitbox.transform.localPosition = new Vector3(
-            Mathf.Abs(attackHitbox.transform.localPosition.x),
-            attackHitbox.transform.localPosition.y,
-            attackHitbox.transform.localPosition.z
-        );
-    }
- }
-
 
     private void FixedUpdate()
     {
@@ -173,7 +171,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
-    // ---------------------------------------------------------
 
     // ---------------- AFTERIMAGE LOGIC ----------------
     private IEnumerator SpawnGhostsDuringDash()
@@ -212,14 +209,12 @@ public class PlayerController : MonoBehaviour
 
         Destroy(ghostSR.gameObject);
     }
-    // ---------------------------------------------------------
 
     private void OnAttack()
     {
-        
         if (!countdown.countdownFinished)
-        return;
-        
+            return;
+
         if (isAttacking) return;
 
         isAttacking = true;
@@ -227,12 +222,23 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(AttackRoutine());
     }
 
+    // ---------------- BOMB LOGIC (UPDATED) ----------------
     private void OnDropBomb()
     {
-        if (PlayerStats.Instance != null)
-        {
-            PlayerStats.Instance.DropBomb();
+        // BLOCK bomb input until countdown finishes
+        if (countdown == null || !countdown.countdownFinished)
+        return;       
+       
+        if (PlayerStats.Instance == null)
+        return;
+
+        if (!PlayerStats.Instance.BombAbilityUnlocked)
+        {Debug.Log("Bomb ability is locked. Select the Bomb power-up first.");
+            return;
         }
+
+        // Player HAS bombs → drop one
+        PlayerStats.Instance.DropBomb();
     }
 
     private void OnShootFireball()
@@ -270,7 +276,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.08f);
         isAttacking = false;
     }
-    
+
     public void DisableInput()
     {
         playerControls.Disable();
@@ -280,15 +286,8 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Enable();
     }
-
-
-
-
-
-
-
-
 }
+
 
 
 

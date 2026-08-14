@@ -11,21 +11,33 @@ public class EnemyAI : MonoBehaviour
     private bool isAttacking = false;
     private Vector3 originalScale;
 
+    public int damageToPlayer = 1;
+
     private void Start()
     {
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null)
-        player = p.transform;
+            player = p.transform;
 
         originalScale = transform.localScale;
     }
 
-
     private void FixedUpdate()
     {
+        // --- BLOCK AI UNTIL COUNTDOWN FINISHES ---
+        if (!LevelCountdown.Instance.countdownFinished)
+        {
+            animator.SetBool("IsMoving", false);
+            return;
+        }
+
+        // --- KEEP ENEMIES FROM PILING TOGETHER ---
+        MaintainSpacing();
+
         if (player == null) return;
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        
+
         if (distanceToPlayer <= attackRange)
         {
             AttackPlayer();
@@ -36,8 +48,29 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            animator.SetBool("IsMoving", false); // idle           
-            
+            animator.SetBool("IsMoving", false); // idle
+        }
+    }
+
+    // ---------------------------------------------------------
+    // SPACING LOGIC — prevents enemies from stacking together
+    // ---------------------------------------------------------
+    private void MaintainSpacing()
+    {
+        float minDistance = 4f;      // how far apart enemies should stay
+        float pushStrength = 1f;       // how strongly they separate
+
+        Collider[] nearby = Physics.OverlapSphere(transform.position, minDistance);
+
+        foreach (Collider col in nearby)
+        {
+            if (col.gameObject == this.gameObject) continue;
+            if (!col.CompareTag("Enemy")) continue;
+
+            Vector3 away = transform.position - col.transform.position;
+            away.y = 0; // keep movement flat
+
+            transform.position += away.normalized * pushStrength * Time.deltaTime;
         }
     }
 
@@ -64,16 +97,15 @@ public class EnemyAI : MonoBehaviour
         FaceTarget(player.position);
     }
 
-    
     private void DealDamageToPlayer()
     {
         IDamageable dmg = player.GetComponent<IDamageable>();
         if (dmg != null)
         {
-            dmg.TakeDamage(1);
+            dmg.TakeDamage(damageToPlayer);
         }
     }
-               
+
     private void AttackPlayer()
     {
         animator.SetBool("IsMoving", false);
@@ -107,6 +139,7 @@ public class EnemyAI : MonoBehaviour
             transform.localScale = originalScale;
     }
 }
+
 
 
 

@@ -11,6 +11,8 @@ public class EnemyAi2 : MonoBehaviour
     private bool isAttacking = false;
     private Vector3 originalScale;
 
+    public int damageToPlayer = 3;
+
     private void Start()
     {
         GameObject p = GameObject.FindGameObjectWithTag("Player");
@@ -69,7 +71,7 @@ public class EnemyAi2 : MonoBehaviour
         IDamageable dmg = player.GetComponent<IDamageable>();
         if (dmg != null)
         {
-            dmg.TakeDamage(1);
+            dmg.TakeDamage(damageToPlayer);
         }
     }
                

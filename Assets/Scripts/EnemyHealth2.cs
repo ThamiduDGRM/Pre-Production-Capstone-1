@@ -17,6 +17,8 @@ public class EnemyHealth2 : MonoBehaviour, IDamageable
     private Color originalColor;
     public float flashDuration = 0.1f;
 
+    public AudioSource kickAudio;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -29,6 +31,7 @@ public class EnemyHealth2 : MonoBehaviour, IDamageable
         currentHealth -= amount;
 
         StartCoroutine(FlashRed());
+        kickAudio.Play();
 
         if (currentHealth <= 0)
         {
