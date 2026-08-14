@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
   fuseTime: 0.93
   explosionRadius: 10
-  damage: 15
+  damage: 3
   damageLayerMask:
     serializedVersion: 2
     m_Bits: 64
