@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System; //Added so we can use Action events
+using System; // Required for Action
 
 public class LevelCountdown : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class LevelCountdown : MonoBehaviour
     public bool countdownFinished { get; private set; } = false;
     public static LevelCountdown Instance;
 
-    //Event broadcast when the intro countdown completes
+    // This event definition was missing from your LevelCountdown script:
     public static event Action OnCountdownFinished;
 
     private void Awake()
@@ -22,7 +22,7 @@ public class LevelCountdown : MonoBehaviour
         Instance = this;
     }
 
-    //LevelFadeIn will call this
+    // LevelFadeIn will call this
     public void BeginCountdown()
     {
         StartCoroutine(CountdownRoutine());
@@ -33,7 +33,6 @@ public class LevelCountdown : MonoBehaviour
         countdownFinished = false;        
         countdownText.gameObject.SetActive(true);
 
-        //Null check safety for audio
         if (announcerAudio != null)
         {
             announcerAudio.Play();
@@ -56,7 +55,7 @@ public class LevelCountdown : MonoBehaviour
         
         countdownText.gameObject.SetActive(false);
 
-        //Mark finished and trigger event for Level2Countdown
+        // Notify Level2Countdown that intro is complete
         countdownFinished = true;
         OnCountdownFinished?.Invoke();
     }
