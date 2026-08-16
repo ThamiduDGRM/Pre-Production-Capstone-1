@@ -26,7 +26,7 @@ public class LevelCountdown : MonoBehaviour
         StartCoroutine(CountdownRoutine());
     }
 
-    private IEnumerator CountdownRoutine()
+    public IEnumerator CountdownRoutine()
     {
         countdownFinished = false;
         countdownText.gameObject.SetActive(true);
