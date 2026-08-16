@@ -9,8 +9,7 @@ public class LevelFadeIn : MonoBehaviour
     [SerializeField] private LevelCountdown countdown;
 
     private void Start()
-    {
-        countdown.BeginCountdown();
+    {        
         StartCoroutine(FadeInRoutine());        
     }
 

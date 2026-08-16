@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private float timer = 0f;
     private int kills = 0;
     private bool isRunning = true;
-
+    private LevelCountdown countdown;
     private void Awake()
     {
         Instance = this;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        countdown = Object.FindFirstObjectByType<LevelCountdown>();
         // Timer should be visible immediately
         timerText.text = "00:00";        
     }
