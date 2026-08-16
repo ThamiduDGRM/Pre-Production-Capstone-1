@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        countdown = Object.FindFirstObjectByType<LevelCountdown>();
         rb = GetComponent<Rigidbody>();
         attackHitbox.SetActive(false);
     }

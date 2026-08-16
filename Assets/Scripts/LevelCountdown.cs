@@ -4,6 +4,8 @@ using System.Collections;
 
 public class LevelCountdown : MonoBehaviour
 {
+    public static LevelCountdown Instance;
+
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private float countdownSpeed = 0.2f;
 
@@ -11,27 +13,25 @@ public class LevelCountdown : MonoBehaviour
     [SerializeField] private AudioSource announcerAudio;
 
     public bool countdownFinished { get; private set; } = false;
-    public static LevelCountdown Instance;
 
-    // LevelFadeIn will call this
-    public void BeginCountdown()
-    {
-        StartCoroutine(CountdownRoutine());
-    }
-             
     private void Awake()
     {
         Instance = this;
     }
 
+    private void Start()
+    {
+        // AUTO-STARTS IN EVERY LEVEL
+        StartCoroutine(CountdownRoutine());
+    }
+
     private IEnumerator CountdownRoutine()
     {
-        announcerAudio.Play();
-        countdownFinished = false;        
+        countdownFinished = false;
         countdownText.gameObject.SetActive(true);
 
-        // Play announcer voice
-        
+        if (announcerAudio != null)
+            announcerAudio.Play();
 
         countdownText.text = "3";
         yield return new WaitForSeconds(countdownSpeed);
@@ -44,14 +44,15 @@ public class LevelCountdown : MonoBehaviour
 
         countdownText.text = "GO!";
         yield return new WaitForSeconds(countdownSpeed);
-        
+
         countdownText.text = "Kill All Enemies!";
         yield return new WaitForSeconds(countdownSpeed);
-        
+
         countdownText.gameObject.SetActive(false);
 
         countdownFinished = true;
     }
 }
+
 
 
