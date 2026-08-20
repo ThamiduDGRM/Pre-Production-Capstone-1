@@ -16,9 +16,17 @@ public class BossEnemy : MonoBehaviour
     public int arrowsToSpawn = 12;
     public float arrowSpreadRadius = 3f;
 
+    [Header("Point Attack")]
+    public GameObject pointProjectilePrefab;
+    public float projectileSpeed = 12f;
+    public int projectilesToShoot = 3;
+    public float projectileInterval = 0.2f;
+
     private Transform player;
     private bool isAttacking = false;
     private Vector3 originalScale;
+
+    private bool usePointAttack = false; // alternates between attacks
 
     private void Start()
     {
@@ -27,6 +35,7 @@ public class BossEnemy : MonoBehaviour
             player = p.transform;
 
         originalScale = transform.localScale;
+
         StartCoroutine(AttackRoutine());
     }
 
@@ -38,7 +47,14 @@ public class BossEnemy : MonoBehaviour
             bossAnimator.SetBool("isMoving", false);
             return;
         }
-        if (isAttacking) return;
+
+        // Block movement during telegraph + arrow rain + point attack
+        if (isAttacking)
+        {
+            bossAnimator.SetBool("isMoving", false);
+            return;
+        }
+
         if (player == null) return;
 
         ChasePlayer();
@@ -48,7 +64,6 @@ public class BossEnemy : MonoBehaviour
     {
         bossAnimator.SetBool("isMoving", true);
 
-        // Move toward player using EnemyAI-style movement
         Vector3 targetPos = new Vector3
         (
             player.position.x,
@@ -88,31 +103,84 @@ public class BossEnemy : MonoBehaviour
             isAttacking = true;
             bossAnimator.SetBool("isMoving", false);
 
-            // Telegraph animation
-            bossAnimator.SetTrigger("Telegraph");
-
-            // Spawn telegraph under player
             Vector3 telegraphPos = player.position;
             GameObject telegraph = Instantiate(telegraphPrefab, telegraphPos, Quaternion.identity);
 
-            // Wait for animation duration
-            yield return new WaitForSeconds(telegraphDuration);
-
-            // Arrow rain
-            for (int i = 0; i < arrowsToSpawn; i++)
+            // Choose attack type
+            if (usePointAttack)
             {
-                Vector3 randomPos = telegraphPos + Random.insideUnitSphere * arrowSpreadRadius;
-                randomPos.y = 10f;
+                // ⭐ Play point telegraph animation
+                bossAnimator.SetTrigger("TelegraphPoint");
 
-                Instantiate(arrowPrefab, randomPos, Quaternion.identity);
+                // Wait for telegraph animation
+                yield return new WaitForSeconds(telegraphDuration);
+
+                // ⭐ Point attack
+                yield return StartCoroutine(PointAttack(player.position));
+            }
+            else
+            {
+                // ⭐ Play arrow-rain telegraph animation
+                bossAnimator.SetTrigger("Telegraph");
+
+                // Wait for telegraph animation
+                yield return new WaitForSeconds(telegraphDuration);
+
+                // ⭐ Arrow rain
+                for (int i = 0; i < arrowsToSpawn; i++)
+                {
+                    Vector3 randomPos = telegraphPos + Random.insideUnitSphere * arrowSpreadRadius;
+                    randomPos.y = 10f;
+
+                    Instantiate(arrowPrefab, randomPos, Quaternion.identity);
+                }
+
+                // Wait for arrows to fall
+                yield return new WaitForSeconds(0.5f);
             }
 
             Destroy(telegraph);
 
+            // Switch attack for next time
+            usePointAttack = !usePointAttack;
+
             isAttacking = false;
         }
     }
+
+        private IEnumerator PointAttack(Vector3 targetPos)
+    {
+        // Correct direction toward player
+        Vector3 dir = (targetPos - transform.position).normalized;
+
+            for (int i = 0; i < projectilesToShoot; i++)
+        {
+            // Spawn slightly in front of the boss
+            Vector3 spawnPos = transform.position + (dir * 1.2f);
+
+            GameObject proj = Instantiate(pointProjectilePrefab, spawnPos, Quaternion.identity);
+
+            // Rotate projectile to face the player
+            proj.transform.forward = dir;
+
+            proj.transform.forward = dir;
+            proj.transform.Rotate(90f, 0f, 0f); // example correction
+
+
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.useGravity = false;
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+                rb.linearVelocity = dir * projectileSpeed;
+            }
+
+            yield return new WaitForSeconds(projectileInterval);
+        }
+    }
+
 }
+
 
 
 
