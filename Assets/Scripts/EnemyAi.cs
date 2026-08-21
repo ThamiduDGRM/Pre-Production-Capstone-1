@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAi : MonoBehaviour
 {
     public float chaseSpeed = 3.5f;
     public float detectionRange = 6f;

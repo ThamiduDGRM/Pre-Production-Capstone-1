@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControls playerControls;
     private Rigidbody rb;
-
+    private Vector3 startPosition;
     private Vector3 movement;
     private Vector2 moveInput;
 
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        
         playerControls = new PlayerControls();
 
         playerControls.Player.Attack.performed += ctx => OnAttack();
@@ -187,6 +188,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+      
+    
+    
+    
     private void SpawnGhost()
     {
         GameObject ghost = Instantiate(ghostPrefab, transform.position, transform.rotation);

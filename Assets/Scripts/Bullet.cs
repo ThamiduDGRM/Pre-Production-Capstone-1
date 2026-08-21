@@ -18,28 +18,28 @@ public class EnemyBullet : MonoBehaviour
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    public void SetDirection(Vector3 dir)
-    {
-        direction = dir.normalized;
-
-        // ⭐ Rotate bullet to face movement direction
-        transform.right = direction;
-    }
+   
 
     private void OnTriggerEnter(Collider other)
     {
+        // ⭐ Guaranteed player detection (root + child)
         if (other.CompareTag("Player"))
         {
+            // If your player has health:
+            other.GetComponent<PlayerHealth>().TakeDamage(damage);
+
             Destroy(gameObject);
-            return;
+            
         }
 
-        if (other.CompareTag("Ground") || other.CompareTag("Environment"))
-        {
-            Destroy(gameObject);
-        }
+        // ⭐ Delete on ground or environment
+        
     }
 }
+
+
+
+
 
 
 

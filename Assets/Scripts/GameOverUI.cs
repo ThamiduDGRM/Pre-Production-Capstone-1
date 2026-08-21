@@ -5,10 +5,12 @@ public class GameOverUI : MonoBehaviour
 {
     public GameObject gameOverPanel;
     
+    
 
     private void Start()
     {
-        gameOverPanel.SetActive(false); // Hide at start
+        gameOverPanel.SetActive(false);
+         // Hide at start
         
     }
 
@@ -21,7 +23,7 @@ public class GameOverUI : MonoBehaviour
         if (player != null)
             player.DisableInput();
         
-        gameOverPanel.SetActive(true);
+        gameOverPanel.SetActive(true);        
         Time.timeScale = 0f; // pause game
     }
 

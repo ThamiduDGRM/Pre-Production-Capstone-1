@@ -21,6 +21,8 @@ public class RangedEnemy : MonoBehaviour
 
     private void Update()
     {
+        MaintainSpacing();
+        
         // Prevent movement + shooting until countdown ends
         if (!LevelCountdown.Instance.countdownFinished)
         {
@@ -44,13 +46,33 @@ public class RangedEnemy : MonoBehaviour
         }
     }
 
+    private void MaintainSpacing()
+    {
+        float minDistance = 60f;      // how far apart enemies should stay
+        float pushStrength = 80f;       // how strongly they separate
+
+        Collider[] nearby = Physics.OverlapSphere(transform.position, minDistance);
+
+        foreach (Collider col in nearby)
+        {
+            if (col.gameObject == this.gameObject) continue;
+            if (!col.CompareTag("Enemy")) continue;
+
+            Vector3 away = transform.position - col.transform.position;
+            away.y = 0; // keep movement flat
+
+            transform.position += away.normalized * pushStrength * Time.deltaTime;
+        }
+    }                 
+    
     private void MoveTowardPlayer()
     {
         animator.SetBool("isMoving", true);
 
         Vector3 targetPos = new Vector3(player.position.x, transform.position.y, player.position.z);
 
-        transform.position = Vector3.MoveTowards(
+        transform.position = Vector3.MoveTowards
+        (
             transform.position,
             targetPos,
             moveSpeed * Time.deltaTime
@@ -70,13 +92,14 @@ public class RangedEnemy : MonoBehaviour
             animator.SetTrigger("Shoot");
 
             Vector3 dir = (player.position - transform.position).normalized;
-            Vector3 spawnPos = transform.position + dir * 1.2f;
+            Vector3 spawnPos = transform.position + dir * 2f;
 
             GameObject proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
 
             // Fireball-style bullet movement
             EnemyBullet bullet = proj.GetComponent<EnemyBullet>();
             bullet.direction = dir;
+            
         }
     }
 

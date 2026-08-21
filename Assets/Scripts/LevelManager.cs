@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject levelCompleteUI;
     [SerializeField] private UnityEngine.UI.Button playAgainButton;
     [SerializeField] private UnityEngine.UI.Button exitButton;
+    [SerializeField] private UnityEngine.UI.Button nextLevelButton;
 
     private void Awake()
     {
@@ -28,6 +30,9 @@ public class LevelManager : MonoBehaviour
 
         if (levelCompleteUI != null)
             levelCompleteUI.SetActive(false);
+
+        if (nextLevelButton != null)
+            nextLevelButton.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -45,10 +50,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // ⭐ LEVEL 1 KILL COUNTER (unchanged)
+    // ⭐ LEVEL 1 KILL COUNTER
     public void RegisterKill()
     {
-        if (!level2Active) // Only count kills in Level 1
+        if (!level2Active)
         {
             currentKills++;
 
@@ -57,15 +62,17 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void OnLevelComplete()
+    public void OnLevelComplete()
     {
         if (levelCompleteText != null)
             levelCompleteText.SetActive(true);
 
-        StartCoroutine(EnableButtonsAfterDelay());
-
         if (levelCompleteUI != null)
             levelCompleteUI.SetActive(true);
+
+        // ⭐ Show Next Level button
+        if (nextLevelButton != null)
+            nextLevelButton.gameObject.SetActive(true);
 
         if (BackgroundMusic.Instance != null)
             BackgroundMusic.Instance.StopMusic();
@@ -74,7 +81,32 @@ public class LevelManager : MonoBehaviour
         if (player != null)
             player.DisableInput();
 
-        Time.timeScale = 0f;
+        // Disable enemies
+            foreach (EnemyAi ai in Object.FindObjectsByType<EnemyAi>(FindObjectsSortMode.None))
+        {
+            Destroy(ai.gameObject);
+        }
+
+        foreach (EnemyAi2 ai2 in Object.FindObjectsByType<EnemyAi2>(FindObjectsSortMode.None))
+        {
+            Destroy(ai2.gameObject);
+        }
+
+        foreach (RangedEnemy re in Object.FindObjectsByType<RangedEnemy>(FindObjectsSortMode.None))
+        {
+            Destroy(re.gameObject);
+        }
+
+       
+        
+
+        GameManager gamemanager = Object.FindFirstObjectByType<GameManager>();
+        if (gamemanager != null)
+            gamemanager.gameObject.SetActive(false);
+
+        Time.timeScale = 1f;
+
+        StartCoroutine(EnableButtonsAfterDelay());
 
         Debug.Log("LEVEL COMPLETE!");
     }
@@ -83,21 +115,32 @@ public class LevelManager : MonoBehaviour
     {
         playAgainButton.interactable = false;
         exitButton.interactable = false;
+        nextLevelButton.interactable = false;
 
         yield return new WaitForSecondsRealtime(0.8f);
 
         playAgainButton.interactable = true;
         exitButton.interactable = true;
+        nextLevelButton.interactable = true;
     }
 
-    // ⭐ Call this when Level 2 starts
+    // ⭐ LEVEL 2 START
     public void StartLevel2()
     {
         level2Active = true;
-        survivalTime = 120f; // reset timer
-        currentKills = 0;    // kill count irrelevant for Level 2
+        survivalTime = 120f;
+        currentKills = 0;
+    }
+
+    // ⭐ NEXT LEVEL BUTTON LOGIC
+    public void NextLevel()
+    {
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
+
+
 
 
 

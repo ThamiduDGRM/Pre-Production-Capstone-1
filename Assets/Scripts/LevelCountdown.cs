@@ -19,6 +19,8 @@ public class LevelCountdown : MonoBehaviour
         Instance = this;
     }
 
+            
+    
     private void Start()
     {
         // AUTO-STARTS IN EVERY LEVEL
@@ -45,8 +47,7 @@ public class LevelCountdown : MonoBehaviour
         countdownText.text = "GO!";
         yield return new WaitForSeconds(countdownSpeed);
 
-        countdownText.text = "Kill All Enemies!";
-        yield return new WaitForSeconds(countdownSpeed);
+        
 
         countdownText.gameObject.SetActive(false);
 
