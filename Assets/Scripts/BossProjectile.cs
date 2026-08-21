@@ -16,7 +16,7 @@ public class BossProjectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // OPTIONAL: apply damage here
-            // other.GetComponent<PlayerHealth>().TakeDamage(damage);
+            other.GetComponent<PlayerHealth>().TakeDamage(damage);
 
             Destroy(gameObject); // delete arrow on hit
         }

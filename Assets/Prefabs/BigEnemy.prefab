@@ -190,6 +190,7 @@ MonoBehaviour:
   detectionRange: 4
   attackRange: 3
   animator: {fileID: 8297614348203530301}
+  damageToPlayer: 8
 --- !u!114 &5868897228703745958
 MonoBehaviour:
   m_ObjectHideFlags: 0
