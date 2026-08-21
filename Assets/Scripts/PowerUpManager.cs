@@ -37,10 +37,10 @@ public class PowerUpManager : MonoBehaviour
         PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
         pc.DisableInput();
 
-        // 🔥 Disable card buttons BEFORE fade starts
+        //  Disable card buttons BEFORE fade starts
         PowerUpUI.Instance.PrepareCards(allPowerUps);
 
-        // 🔥 Fade in AFTER cards are disabled
+        //  Fade in AFTER cards are disabled
         powerUpUI.GetComponent<UIFader>().FadeIn();
     }
 

@@ -19,7 +19,7 @@ public class BossHealthBar : MonoBehaviour
     {
         if (boss != null)
         {
-            slider.value = boss.CurrentHealth; // ⭐ live update
+            slider.value = boss.CurrentHealth;
         }
     }
 }

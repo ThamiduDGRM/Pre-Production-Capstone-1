@@ -22,7 +22,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // ⭐ Guaranteed player detection (root + child)
+        
         if (other.CompareTag("Player"))
         {
             // If your player has health:
@@ -32,7 +32,7 @@ public class EnemyBullet : MonoBehaviour
             
         }
 
-        // ⭐ Delete on ground or environment
+        
         
     }
 }

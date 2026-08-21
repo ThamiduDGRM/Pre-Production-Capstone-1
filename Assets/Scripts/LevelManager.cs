@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        // ⭐ LEVEL 2 SURVIVAL MODE
+        // LEVEL 2 SURVIVAL MODE
         if (level2Active)
         {
             survivalTime -= Time.deltaTime;
@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // ⭐ LEVEL 1 KILL COUNTER
+    //  LEVEL 1 KILL COUNTER
     public void RegisterKill()
     {
         if (!level2Active)
@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
         if (levelCompleteUI != null)
             levelCompleteUI.SetActive(true);
 
-        // ⭐ Show Next Level button
+        //  Show Next Level button
         if (nextLevelButton != null)
             nextLevelButton.gameObject.SetActive(true);
 
@@ -124,7 +124,7 @@ public class LevelManager : MonoBehaviour
         nextLevelButton.interactable = true;
     }
 
-    // ⭐ LEVEL 2 START
+    //  LEVEL 2 START
     public void StartLevel2()
     {
         level2Active = true;
@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
         currentKills = 0;
     }
 
-    // ⭐ NEXT LEVEL BUTTON LOGIC
+    //  NEXT LEVEL BUTTON LOGIC
     public void NextLevel()
     {
         // Reload the current scene

@@ -7,7 +7,7 @@ public class LevelCountdown : MonoBehaviour
     public static LevelCountdown Instance;
 
     [SerializeField] private TextMeshProUGUI countdownText;
-    [SerializeField] private float countdownSpeed = 0.2f;
+    [SerializeField] private float countdownSpeed = 0.05f;
 
     [Header("Audio")]
     [SerializeField] private AudioSource announcerAudio;

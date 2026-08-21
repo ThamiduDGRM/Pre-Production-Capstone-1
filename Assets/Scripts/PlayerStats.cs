@@ -1,4 +1,3 @@
-// PlayerStats.cs (updated)
 using UnityEngine;
 using System.Collections;
 
