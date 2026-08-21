@@ -3,10 +3,11 @@ using UnityEngine;
 public class RangedEnemy : MonoBehaviour
 {
     public float moveSpeed = 2f;
-    public float stopDistance = 6f;       // enemy stops and shoots
-    public float shootInterval = 1.5f;    // time between shots
-    public GameObject projectilePrefab;
-    public float projectileSpeed = 10f;
+    public float stopDistance = 6f;
+    public float shootInterval = 1.5f;
+
+    public GameObject projectilePrefab;   // PixelBullet / EnemyBullet prefab
+    public Animator animator;
 
     private Transform player;
     private float shootTimer = 0f;
@@ -20,6 +21,13 @@ public class RangedEnemy : MonoBehaviour
 
     private void Update()
     {
+        // Prevent movement + shooting until countdown ends
+        if (!LevelCountdown.Instance.countdownFinished)
+        {
+            animator.SetBool("isMoving", false);
+            return;
+        }
+
         if (player == null) return;
 
         FacePlayer();
@@ -32,12 +40,14 @@ public class RangedEnemy : MonoBehaviour
         }
         else
         {
-            ShootAtPlayer();
+            IdleAndShoot();
         }
     }
 
     private void MoveTowardPlayer()
     {
+        animator.SetBool("isMoving", true);
+
         Vector3 targetPos = new Vector3(player.position.x, transform.position.y, player.position.z);
 
         transform.position = Vector3.MoveTowards(
@@ -45,6 +55,29 @@ public class RangedEnemy : MonoBehaviour
             targetPos,
             moveSpeed * Time.deltaTime
         );
+    }
+
+    private void IdleAndShoot()
+    {
+        animator.SetBool("isMoving", false);
+
+        shootTimer -= Time.deltaTime;
+
+        if (shootTimer <= 0f)
+        {
+            shootTimer = shootInterval;
+
+            animator.SetTrigger("Shoot");
+
+            Vector3 dir = (player.position - transform.position).normalized;
+            Vector3 spawnPos = transform.position + dir * 1.2f;
+
+            GameObject proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+
+            // Fireball-style bullet movement
+            EnemyBullet bullet = proj.GetComponent<EnemyBullet>();
+            bullet.direction = dir;
+        }
     }
 
     private void FacePlayer()
@@ -56,28 +89,6 @@ public class RangedEnemy : MonoBehaviour
         else
             transform.localScale = originalScale;
     }
-
-    private void ShootAtPlayer()
-    {
-        shootTimer -= Time.deltaTime;
-
-        if (shootTimer <= 0f)
-        {
-            shootTimer = shootInterval;
-
-            Vector3 dir = (player.position - transform.position).normalized;
-
-            // Spawn projectile slightly in front
-            Vector3 spawnPos = transform.position + dir * 1.2f;
-
-            GameObject proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-
-            proj.transform.forward = dir;
-
-            Rigidbody rb = proj.GetComponent<Rigidbody>();
-            rb.useGravity = false;
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            rb.linearVelocity = dir * projectileSpeed;
-        }
-    }
 }
+
+
